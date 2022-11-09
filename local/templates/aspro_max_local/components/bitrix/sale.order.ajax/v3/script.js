@@ -423,6 +423,10 @@ BX.saleOrderAjax = {
    
 
 });
+$(document).on('focus', '#soa-property-56', function(){
+	$('#soa-property-56').hide();
+	$('#logsis_fake').show().focus();
+})
 $(document).on('input', '#logsis_fake', function(){
 	var token = "fada7942ee29931f767361b455b43fd6d01c36a4"; //dadata
 	if(window.loc_city){
@@ -468,11 +472,6 @@ $(document).on('input', '#logsis_fake', function(){
 				})
 				$(document).on('click', 'body', function(){
 					$('.address_variants').hide();
-				})
-				
-				$(document).on('focusout', '#soa-property-56', function(){
-					$('#soa-property-56').hide();
-					addressField.show();
 				})
 			} else {
 				$('.address_variants').hide();
