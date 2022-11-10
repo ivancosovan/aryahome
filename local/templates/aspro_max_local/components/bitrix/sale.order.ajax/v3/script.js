@@ -420,7 +420,7 @@ BX.saleOrderAjax = {
    }
 });
 $(document).on('input', '#soa-property-56', function(){
-	var token = "fada7942ee29931f767361b455b43fd6d01c36a4"; //dadata
+	var token = "bc1f45ee73b18f009c7c2c927a855f103d704f1f"; //dadata
 	if(window.loc_city){
 		let addressField = $(this);
 		let url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
