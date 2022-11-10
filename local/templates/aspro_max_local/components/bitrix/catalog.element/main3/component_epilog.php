@@ -724,7 +724,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 																),
 																false, array("HIDE_ICONS" => "Y")
 															);?>
-															<?=\Aspro\Functions\CAsproMax::showComments()?>
+															<?=\Aspro\Functions\CAsproMax::showComments("")?>
 															<?$html=ob_get_clean();?>
 															<?if($html && strpos($html, 'error') === false):?>
 																<div class="ordered-block comments-block">
@@ -936,7 +936,7 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 										),
 										false, array("HIDE_ICONS" => "Y")
 									);?>
-									<?=\Aspro\Functions\CAsproMax::showComments()?>
+									<?=\Aspro\Functions\CAsproMax::showComments("")?>
 									<?$html=ob_get_clean();?>
 									<?if($html && strpos($html, 'error') === false):?>
 										<div class="ordered-block comments-block">
