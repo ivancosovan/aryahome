@@ -1,7 +1,14 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <? $this->setFrameMode( true ); ?>
 <?use \Bitrix\Main\Localization\Loc;?>
-<?if($arResult["SECTIONS"]){?>
+<?if($arResult["SECTIONS"]){
+	$arFilter = array('SECTION_ID' => 18, 'ACTIVE' => 'Y'); // выберет потомков без учета активности
+	$rsSect = CIBlockSection::GetList(array('ID' => 'asc'),$arFilter);
+	while ($arSect = $rsSect->Fetch())
+	{
+		$arResult['SUB_SECTIONS'][18] = $arSect;
+	}
+	?>
 	<?global $arTheme;
 	$bSlick = ($arParams['NO_MARGIN'] == 'Y');
 	$bIcons = ($arParams['SHOW_ICONS'] == 'Y');?>
