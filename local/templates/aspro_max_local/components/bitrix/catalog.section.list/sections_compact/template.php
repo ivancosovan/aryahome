@@ -1,14 +1,7 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();?>
 <? $this->setFrameMode( true ); ?>
 <?use \Bitrix\Main\Localization\Loc;?>
-<?if($arResult["SECTIONS"]){
-	$arFilter = array('SECTION_ID' => 18, 'ACTIVE' => 'Y'); // выберет потомков без учета активности
-	$rsSect = CIBlockSection::GetList(array('ID' => 'asc'),$arFilter);
-	while ($arSect = $rsSect->Fetch())
-	{
-		$arResult['SUB_SECTIONS'][18] = $arSect;
-	}
-	?>
+<?if($arResult["SECTIONS"]){?>
 	<?global $arTheme;
 	$bSlick = ($arParams['NO_MARGIN'] == 'Y');
 	$bIcons = ($arParams['SHOW_ICONS'] == 'Y');?>
@@ -226,7 +219,7 @@
 				$countElements = CMaxCache::CIBlockElement_GetList($arOrder, $arFilter, []);
 				$arSubSections = Array();
 				$arItems['ELEMENT_CNT'] = $countElements;
-				$arFilter = array('SECTION_ID' => $arItems['ID']); // выберет потомков без учета активности
+				$arFilter = array('SECTION_ID' => $arItems['ID'],'ACTIVE' => 'Y'); // выберет потомков без учета активности
 				$rsSect = CIBlockSection::GetList(array('ID' => 'asc'),$arFilter);
 				while ($arSect = $rsSect->getNext())
 				{
