@@ -1375,8 +1375,10 @@ body .prices .price_matrix_block .not-show:first-of-type {
     font-weight: normal;
 }
 /*fix style new icons*/
-body .basket-link .js-basket-block .count {
-    background: #FF3C38;;
+body .basket-link .js-basket-block .count,
+.bottom-icons-panel-item_basket .colored_theme_bg,
+.bottom-icons-panel-item_delay .colored_theme_bg{
+    background: #FF3C38;
 }
 body .basket-link-custom .js-basket-block .svg {
     opacity: 1;
