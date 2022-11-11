@@ -32,7 +32,7 @@
     <? include_once(str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . '/' . SITE_DIR . 'include/footer_include/top_footer.php')); ?>
 </footer>
 
-<?/*?>
+
 <script data-skip-moving="true">
     (function (w, d, u, i, o, s, p) {
         if (d.getElementById(i)) {
@@ -54,7 +54,6 @@
     }(window, document, '//widgets.mango-office.ru/widgets/mango.js', 'mango-js', 'mgo'));
     mgo({multichannel: {id: 12005}});
 </script>
-<?*/?>
 
 <? include_once(str_replace('//', '/', $_SERVER['DOCUMENT_ROOT'] . '/' . SITE_DIR . 'include/footer_include/bottom_footer.php')); ?>
 
