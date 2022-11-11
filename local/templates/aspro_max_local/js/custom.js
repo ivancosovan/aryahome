@@ -120,3 +120,24 @@ function changeOfferFastView(e){
             }
         });
 }
+
+$(document).on('click', '.variantz', function(){
+	var sizeData = $(this).data('json-size');
+	$(this).closest('.products-product').attr('data-product', sizeData.ID);
+	$(this).closest('.products-product').find('.to-cart').attr('data-item', sizeData.ID);
+	$(this).closest('.products-product').find('.wish_item').attr('data-item', sizeData.ID);
+	if($(this).hasClass('inwished')){
+		$(this).closest('.products-product').find('.wish_item').addClass('active');
+	} else {
+		$(this).closest('.products-product').find('.wish_item').removeClass('active');
+	}
+	if($(this).hasClass('inbasket')){
+		$(this).closest('.products-product').find('.to-cart').removeClass('to-cart').text('✓ В корзине').attr('onclick','window.location.href="/basket/"');
+	} else {
+		$(this).closest('.products-product').find('.products-product__incart').addClass('to-cart').removeAttr('onclick').text('В корзину');
+	}
+	$(this).closest('.products-product').find('a.products-product__thumb').attr('href', sizeData.DETAIL_PAGE_URL);
+	$(this).closest('.products-product').find('.products-product__name a').attr('href', sizeData.DETAIL_PAGE_URL);
+	$(this).closest('.products-product').find('.variantz.active').removeClass('active');
+	$(this).addClass('active');
+});
