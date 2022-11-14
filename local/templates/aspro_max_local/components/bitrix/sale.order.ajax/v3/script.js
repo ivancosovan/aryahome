@@ -417,9 +417,17 @@ BX.saleOrderAjax = {
    if($('div[data-property-id-row="56"] .address_variants').length == 0){
 	   $('div[data-property-id-row="56"]').append('<div class="address_variants"><div class="dropdown-item"></div></div>');
 	   $('.address_variants').css('width',$('div[data-property-id-row="56"]').width());
+	   $('#soa-property-56').hide();
+	   $('div[data-property-id-row="56"] .soa-property-container').append('<textarea id="logsis_fake" value="'+ $('#soa-property-56').val()+'">'+ $('#soa-property-56').val()+'</textarea>');
    }
+   
+
 });
-$(document).on('input', '#soa-property-56', function(){
+$(document).on('focus', '#soa-property-56', function(){
+	$('#soa-property-56').hide();
+	$('#logsis_fake').show().focus();
+})
+$(document).on('input', '#logsis_fake', function(){
 	var token = "bc1f45ee73b18f009c7c2c927a855f103d704f1f"; //dadata
 	if(window.loc_city){
 		let addressField = $(this);
@@ -456,7 +464,8 @@ $(document).on('input', '#soa-property-56', function(){
 					});
 
 				$(document).on('click', '.address_variant', function(){
-					addressField.val($(this).text()).focus();
+					addressField.val($(this).text()).hide();
+					$('#soa-property-56').val($(this).text()).show().focus();
 					$('#soa-property-81').val($(this).data('house'));
 					$('#soa-property-80').val($(this).data('street'));
 					$('.address_variants').hide();
