@@ -50,7 +50,8 @@ $logoClass = ($arTheme['COLORED_LOGO']['VALUE'] !== 'Y' ? '' : ' colored');
 				<?=CMax::ShowCabinetLink(true, false, 'big');?>
 			</div>
 		</div>
-		<?=CMax::ShowBasketWithCompareLink('inner-table-block', 'big');?>
+		<?/*=CMax::ShowBasketWithCompareLink('inner-table-block', 'big');*/?>
+		<?=ShowBasketWithCompareLinkCustom('inner-table-block', 'big');?>
 	</div>
 </div>
 <?=\Aspro\Functions\CAsproMax::showProgressBarBlock();?>

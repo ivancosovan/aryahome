@@ -18,6 +18,22 @@
     font-weight: 400;
     font-style: normal
 }
+@font-face {
+    font-family: 'Fira Sans';
+    font-display: swap;
+    src: url(../fonts/FiraSans/FiraSans-Regular.eot);
+    src: url(../fonts/FiraSans/FiraSans-Regular.eot?#iefix) format('embedded-opentype'), url(../fonts/FiraSans/FiraSans-Regular.woff) format('woff'), url(../fonts/FiraSans/FiraSans-Regular.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'Fira Sans';
+    font-display: swap;
+    src: url(../fonts/FiraSans/FiraSans-Medium.eot);
+    src: url(../fonts/FiraSans/FiraSans-Medium.eot?#iefix) format('embedded-opentype'), url(../fonts/FiraSans/FiraSans-Medium.woff) format('woff'), url(../fonts/FiraSans/FiraSans-Medium.ttf) format('truetype');
+    font-weight: 500;
+    font-style: normal
+}
 
 
 
@@ -538,15 +554,21 @@ input.border-gray {
             visibility: hidden;
         }
 
-        .item_info .item-title a,.item_info .item-title span{
-            text-overflow: ellipsis;
-            overflow: hidden;
-            white-space: nowrap;
-/*    font-size: 14px;
+   .item_info .item-title a,.item_info .item-title span{
+    text-overflow: ellipsis;
+    /*white-space: nowrap;
+    font-size: 14px;
     line-height: 20px;
     color: #999;*/
     position: relative;
     display: block;
+    white-space: normal;
+    position: relative;
+    display: block;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
 }
 
 .catalog_favorit .flex-direction-nav .js-click.flex-next:before{
@@ -1341,3 +1363,45 @@ margin-top: 20px;
 body .prices .price_matrix_block .not-show:first-of-type {
     margin-bottom: 0px;
 }
+/*font tizers*/
+.front_tizers span{
+    font-family: 'Fira Sans' !important;
+    font-style: normal;
+    font-weight: 500;
+}
+.front_tizers .value{
+    font-family: 'Fira Sans' !important;
+    font-style: normal;
+    font-weight: normal;
+}
+/*fix style new icons*/
+body .basket-link .js-basket-block .count,
+.bottom-icons-panel-item_basket .colored_theme_bg,
+.bottom-icons-panel-item_delay .colored_theme_bg{
+    background: #FF3C38;
+}
+body .basket-link-custom .js-basket-block .svg {
+    opacity: 1;
+}
+body .basket-link-custom .js-basket-block .svg svg path {
+    fill: none;
+}
+.header-v17 .logo_and_menu-row .wrap_icon>:hover svg:not(.not_fill) path {
+   
+    fill: none;
+}
+.header-v17 a:hover .svg.svg-inline-cabinet path {
+     fill: none; 
+}
+.top-block .top-block-item .svg-inline-cabinet .svg:not(.iconset_icon--svg) svg path {
+    fill: none;
+    
+}
+.basket-link-custom .js-basket-block .svg {
+    opacity: 1 !important;
+}
+/*fix-name*/
+.catalog_block .item_block .item_info--top_block .item-title {
+    min-height: 42px;
+    
+} 
