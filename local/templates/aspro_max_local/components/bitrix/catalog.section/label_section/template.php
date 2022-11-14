@@ -19,7 +19,8 @@ $this->setFrameMode(true);
             <?foreach($arResult['ITEMS'] as $item){
 				$item['DETAIL_PAGE_URL'] = '/catalog/'.$arResult['SECTION_CODES'][$item['IBLOCK_SECTION_ID']].'/'.$item['CODE'].'/'; // по нормальному не отдает урл
 				$APPLICATION->IncludeFile($templateFolder."/item.php", Array('ITEM'=>$item), array());
-			}?>                						
+			}?> 
+			<span class="fake_pagination"><?=getMessage('SHOW_MORE')?></span>
        </div>         
 </section>
 <?}?>	
