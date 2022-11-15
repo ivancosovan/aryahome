@@ -1195,6 +1195,48 @@ function redirects(){
 		}
 	}
 }
+
+AddEventHandler("iblock", "OnAfterIBlockElementUpdate", 'catalogElementSort');
+AddEventHandler("iblock", "OnAfterIBlockElementAdd", 'catalogElementSort');
+function catalogElementSort($arFields){
+	if($arFields['IBLOCK_ID'] == 3){
+		
+		$search_nm = current($arFields['PROPERTY_VALUES'][73])['VALUE'] ? current($arFields['PROPERTY_VALUES'][73])['VALUE'] : $arFields['NAME'];
+		
+		$arSelect = Array("ID","NAME","DETAIL_PAGE_URL","PROPERTY_NAIMENOVANIE_DLYA_SAYTA","PROPERTY_RAZMER", "PROPERTY_OBSHCHIY_RAZMER_DLYA_SAYTA","PROPERTY_TSVET");
+		  $arFilter = Array(
+			"IBLOCK_ID" => array(3), 
+			'PROPERTY_NAIMENOVANIE_DLYA_SAYTA'=>$search_nm
+		  );
+		  $res = CIBlockElement::GetList($arSort, $arFilter, false, false, $arSelect);
+		  while($ob = $res->GetNextElement()){
+				$arFieldz = $ob->GetFields();
+				$nm = $arFieldz['PROPERTY_NAIMENOVANIE_DLYA_SAYTA_VALUE'] ? $arFieldz['PROPERTY_NAIMENOVANIE_DLYA_SAYTA_VALUE'] : $arFieldz['NAME'];
+				$col = $arFieldz['PROPERTY_TSVET_VALUE'] ? $arFieldz['PROPERTY_TSVET_VALUE'] : 'no_color';
+				$siz = $arFieldz['PROPERTY_OBSHCHIY_RAZMER_DLYA_SAYTA_VALUE'] ? $arFieldz['PROPERTY_OBSHCHIY_RAZMER_DLYA_SAYTA_VALUE'] : $arFieldz['PROPERTY_RAZMER_VALUE'];
+				if(!$siz){
+					$siz = 'no_size';
+				}
+				$sortable_arr[$nm][$col][$siz] = $arFieldz['ID'];
+		  }
+		  $sort_def = 100;
+		  foreach($sortable_arr as $name=>&$color_arr){
+			  $sort = $sort_def;
+			  foreach($color_arr as $color=>&$sizes_arr){
+				  foreach($sizes_arr as $siz=>&$id){
+						$sort += 100;
+						$sort_arr[$id] = $sort;
+				  }
+			  }
+		  }
+		
+		foreach($sort_arr as $id=>$sort){
+			CIBlockElement::SetPropertyValuesEx($id, false, array('N_SORT' => $sort));
+		}
+	}
+}	
+?>
+
 function ShowBasketWithCompareLinkCustom($class_link='top-btn hover', $class_icon='', $show_price = false, $class_block='', $force_show = false, $bottom = false, $div_class=''){?>
 	<?global $APPLICATION, $arTheme, $arBasketPrices;
 	static $basket_call;
