@@ -1236,7 +1236,7 @@ function catalogElementSort($arFields){
 	}
 }	
 ?>
-
+<?
 function ShowBasketWithCompareLinkCustom($class_link='top-btn hover', $class_icon='', $show_price = false, $class_block='', $force_show = false, $bottom = false, $div_class=''){?>
 	<?global $APPLICATION, $arTheme, $arBasketPrices;
 	static $basket_call;
