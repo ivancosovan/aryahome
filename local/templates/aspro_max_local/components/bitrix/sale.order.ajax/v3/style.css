@@ -159,7 +159,7 @@ body #bx-soa-order-form {
   visibility: visible;
 }
 .bx-soa-section.bx-step-completed .bx-soa-section-location.opened {
-  display: none !important;
+ /*  display: none !important; */
 }
 .bx-soa-section-content .alert-show {
   /* margin-top: 25px; */
@@ -1174,7 +1174,7 @@ body #bx-soa-order-form {
 }
 
 .bx-soa-section-location {
-  display: none;
+  /*display: none;*/
   padding-top: 20px;
   overflow: visible;
 }
@@ -1187,7 +1187,7 @@ body #bx-soa-order-form {
   font-size: 11px;
   padding-top: 10px;
   padding-bottom: 20px;
-  display: none;
+ /* display: none;*/
 }
 .bx-soa-auth .bx-soa-reference {
   border-top: 1px solid #f2f2f2;
@@ -3690,10 +3690,15 @@ label[data-bx-user-consent] input{
 .bx-sls .bx-ui-sls-clear{
     top:0px!important;
 }
-.bx-sls .dropdown-icon{
+/* .bx-sls .dropdown-icon{
     top:6px!important;
+} */
+.bx-ui-sls-container input{
+	margin-top:0.5em!important;
 }
-
+div[data-property-id-row="53"]{
+	display:none;
+}
 .bx-soa-pp.row > .bx-soa-pp-item-container {
     display: flex;
     flex-wrap: wrap;
@@ -3719,9 +3724,11 @@ label[data-bx-user-consent] input{
     border: unset;
 }
 
-
+.bx-ui-sls-input-block{
+	display:block!important;
+}
 .form-group.bx-soa-location-input-container{
-  display: none;
+  /*display: none;*/
 }
 
 .bx-soa-more{
@@ -3752,10 +3759,32 @@ label[data-bx-user-consent] input{
   .pay-info.bx-soa-section-title-container .first, .pay-info.bx-soa-section-title-container .second{
     padding-left: 35px;
   }
-}
+} 
 @media(max-width: 768px){
   .pay-info.bx-soa-section-title-container .first, .pay-info.bx-soa-section-title-container .second{
     padding-left: 15px;
     padding-right: 15px;
   }
+}
+
+.address_variants {
+    display: none;
+    position: absolute;
+    z-index: 99;
+    border: 1px solid #c49c4e;
+    width: 370px;
+	max-width:100%;
+    font-size: 14px;
+    padding: 15px;
+    background: #fff;
+    cursor: pointer;
+}
+.address_variant{
+	padding: 0.5em;
+    border-bottom: #c49c4e 1px dotted;
+    margin: 0.5em 0;
+}
+.address_variant:hover {
+    color: #c49c4e;
+	background:#eee;
 }

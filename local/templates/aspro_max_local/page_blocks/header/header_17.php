@@ -55,6 +55,7 @@ $dopClass .= ' high_one_row_header';
 						<div class="pull-right">
 							<div class="wrap_icon inner-table-block1 person">
 								<?=CMax::showCabinetLink(true, true, 'big');?>
+								
 							</div>
 						</div>
 
@@ -115,7 +116,8 @@ $dopClass .= ' high_one_row_header';
 
 						<div class="right-icons1 pull-right wb">
 							<div class="pull-right longest">
-								<?=CMax::ShowBasketWithCompareLink('', 'big', '', 'wrap_icon wrap_basket baskets');?>
+								<?/*=CMax::ShowBasketWithCompareLink('', 'big', '', 'wrap_icon wrap_basket baskets');*/?>
+								<?=ShowBasketWithCompareLinkCustom('', 'big', '', 'wrap_icon wrap_basket baskets');?>
 							</div>
 						</div>
 

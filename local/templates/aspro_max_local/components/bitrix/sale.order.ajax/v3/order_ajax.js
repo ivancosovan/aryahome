@@ -1826,7 +1826,7 @@ BX.namespace("BX.Sale.OrderAjaxComponent"), function () {
             if ((location = this.locations[locationId]) && location[0] && location[0].output) for (k in this.regionBlockNotEmpty = !0, labelHtml = '<label class="bx-soa-custom-label" for="soa-property-' + parseInt(locationId) + '">' + ("Y" == currentProperty.REQUIRED ? '<span class="bx-authform-starrequired">*</span> ' : "") + BX.util.htmlspecialchars(currentProperty.NAME) + (currentProperty.DESCRIPTION.length ? " <small>(" + BX.util.htmlspecialchars(currentProperty.DESCRIPTION) + ")</small>" : "") + "</label>", currentLocation = location[0].output, insertedLoc = BX.create("DIV", {
                 attrs: {"data-property-id-row": locationId},
                 props: {className: "form-group bx-soa-location-input-container soa-property-container"},
-                style: {visibility: "hidden"},
+                style: {visibility: "visible"},
                 html: currentLocation.HTML
             }), node.appendChild(insertedLoc), node.appendChild(BX.create("INPUT", {
                 props: {
@@ -4590,5 +4590,5 @@ BX.namespace("BX.Sale.OrderAjaxComponent"), function () {
             }), this))
         }
     }
-}();
+}(); 
 //# sourceMappingURL=order_ajax.min.js.map

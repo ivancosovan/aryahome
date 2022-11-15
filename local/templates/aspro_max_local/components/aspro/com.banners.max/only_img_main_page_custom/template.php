@@ -61,7 +61,7 @@
 														"ELEMENT_SORT_ORDER2" => "asc",
 														"FILTER_NAME" => 'arrFilterProduct',
 														"INCLUDE_SUBSECTIONS" => "Y",
-														"PAGE_ELEMENT_COUNT" => "3",
+														"PAGE_ELEMENT_COUNT" => "4",
 														"LINE_ELEMENT_COUNT" => "3",
 														"SET_LINE_ELEMENT_COUNT" => $bSetElementsLineRow,
 														"DISPLAY_TYPE" => $display,

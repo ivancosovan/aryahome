@@ -356,3 +356,8 @@ body .wrapper1:not(.with_left_block) .wrapper_inner.front .middle .drag-block.co
 
   margin-right: 5px;
 }
+@media(min-width: 992px){
+  .special_procucts_wrapper .catalog_block .item_block:nth-child(4){
+    display: none;
+  }
+}

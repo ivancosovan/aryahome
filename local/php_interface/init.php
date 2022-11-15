@@ -1195,6 +1195,7 @@ function redirects(){
 		}
 	}
 }
+
 AddEventHandler("iblock", "OnAfterIBlockElementUpdate", 'catalogElementSort');
 AddEventHandler("iblock", "OnAfterIBlockElementAdd", 'catalogElementSort');
 function catalogElementSort($arFields){
@@ -1234,4 +1235,96 @@ function catalogElementSort($arFields){
 		}
 	}
 }	
+?>
+
+function ShowBasketWithCompareLinkCustom($class_link='top-btn hover', $class_icon='', $show_price = false, $class_block='', $force_show = false, $bottom = false, $div_class=''){?>
+	<?global $APPLICATION, $arTheme, $arBasketPrices;
+	static $basket_call;
+	$type_svg = '';
+	if($class_icon)
+	{
+		$tmp = explode(' ', $class_icon);
+		$type_svg = '_'.$tmp[0];
+	}
+
+
+	$iCalledID = ++$basket_call;?>
+	<?if(($arTheme['ORDER_BASKET_VIEW']['VALUE'] == 'NORMAL' || ($arTheme['ORDER_BASKET_VIEW']['VALUE'] == 'BOTTOM' && $bottom)) || $force_show):?>
+		<?if($div_class):?>
+			<div class="<?=$div_class?>">
+		<?endif;?>
+		<?Bitrix\Main\Page\Frame::getInstance()->startDynamicWithID('header-basket-with-compare-block'.$iCalledID);?>
+			<?if($arTheme['CATALOG_COMPARE']['VALUE'] != 'N'):?>
+				<?if($class_block):?>
+					<div class="<?=$class_block;?>">
+				<?endif;?>
+				<?$APPLICATION->IncludeComponent("bitrix:main.include", ".default",
+					array(
+						"COMPONENT_TEMPLATE" => ".default",
+						"PATH" => SITE_DIR."ajax/show_compare_preview_top.php",
+						"AREA_FILE_SHOW" => "file",
+						"AREA_FILE_SUFFIX" => "",
+						"AREA_FILE_RECURSIVE" => "Y",
+						"CLASS_LINK" => $class_link,
+						"CLASS_ICON" => $class_icon,
+						"FROM_MODULE" => "Y",
+						"EDIT_TEMPLATE" => "standard.php"
+					),
+					false, array('HIDE_ICONS' => 'Y')
+				);?>
+				<?if($class_block):?>
+					</div>
+				<?endif;?>
+			<?endif;?>
+			<?if(CMax::getShowBasket()):?>
+				<!-- noindex -->
+				<?if($class_block):?>
+					<div class="<?=$class_block;?>">
+				<?endif;?>
+					<a 
+						rel="nofollow" 
+						class="basket-link basket-link-custom delay <?=$class_link;?> <?=$class_icon;?> <?=($arBasketPrices['DELAY_COUNT'] ? 'basket-count' : '');?>" 
+						href="<?= $arBasketPrices['DELAY_COUNT'] ? $arTheme['BASKET_PAGE_URL']['VALUE'] . '#delayed' : 'javascript:void(0)'; ?>"
+						data-href="<?=$arTheme['BASKET_PAGE_URL']['VALUE'];?>#delayed" 
+						title="<?=$arBasketPrices['DELAY_SUMM_TITLE'];?>"
+					>
+						<span class="js-basket-block">
+							<?=CMax::showIconSvg("wish ".$class_icon, SITE_TEMPLATE_PATH."/images/svg/newchosen.svg");?>
+							<span class="title dark_link"><?=Loc::getMessage('JS_BASKET_DELAY_TITLE');?></span>
+							<span class="count"><?=$arBasketPrices['DELAY_COUNT'];?></span>
+						</span>
+					</a>
+				<?if($class_block):?>
+					</div>
+				<?endif;?>
+				<?if($class_block):?>
+					<div class="<?=$class_block;?> <?=$arTheme['ORDER_BASKET_VIEW']['VALUE'] ? 'top_basket' : ''?>">
+				<?endif;?>
+					<a rel="nofollow" class="basket-link basket-link-custom basket <?=($show_price ? 'has_prices' : '');?> <?=$class_link;?> <?=$class_icon;?> <?=($arBasketPrices['BASKET_COUNT'] ? 'basket-count' : '');?>" href="<?=$arTheme['BASKET_PAGE_URL']['VALUE'];?>" title="<?=$arBasketPrices['BASKET_SUMM_TITLE'];?>">
+						<span class="js-basket-block">
+							<?=CMax::showIconSvg("basket ".$class_icon, SITE_TEMPLATE_PATH."/images/svg/newbasket.svg");?>
+							<?if($show_price):?>
+								<span class="wrap">
+							<?endif;?>
+							<span class="title dark_link"><?=Loc::getMessage('JS_BASKET_TITLE');?></span>
+							<span class="count"><?=$arBasketPrices['BASKET_COUNT'];?></span>
+							<?if($show_price):?>
+								<span class="prices"><?=($arBasketPrices['BASKET_COUNT'] ? $arBasketPrices['BASKET_SUMM'] : $arBasketPrices['BASKET_SUMM_TITLE_SMALL'] )?></span>
+								</span>
+							<?endif;?>
+						</span>
+					</a>
+					<span class="basket_hover_block loading_block loading_block_content"></span>
+
+				<?if($class_block):?>
+					</div>
+				<?endif;?>
+				<!-- /noindex -->
+			<?endif;?>
+		<?Bitrix\Main\Page\Frame::getInstance()->finishDynamicWithID('header-basket-with-compare-block'.$iCalledID, '');?>
+		<?if($div_class):?>
+			</div>
+		<?endif;?>
+	<?endif;?>
+<?}
 ?>

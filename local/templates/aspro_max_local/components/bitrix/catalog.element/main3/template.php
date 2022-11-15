@@ -701,7 +701,7 @@ $iCountProps = count($arResult['DISPLAY_PROPERTIES']) + $offerPropCount;
 						<div class="product-detail-gallery__thmb-inner<?=($bVertical ? ' vertical' : '');?>">
 							<?if($countPhoto > 1 || $showCustomOffer || $popupVideo):?>
 								<div class="product-detail-gallery__slider custom_owl-carousel owl-carousel owl-theme thmb<?=($bVertical ? ' product-detail-gallery__slider--vertical' : '');?><?=($countPhoto > 3 ? ' m-photo' : '');?>" data-size="<?=$countPhoto;?>" data-plugin-options='{"items": "4", "nav": true, "loop": false, "clickTo": ".product-detail-gallery__slider.big", "dots": false, "autoWidth": true, "margin": 10<?//if($bVertical):?>, "mouseDrag": false, "pullDrag": false<?//endif;?><?if($bMagnifier):?>, "magnifier": true<?endif;?>}'
-								style="max-width:<?=ceil((($countPhoto <= 4 ? $countPhoto : 4) * 120) - 10)?>px; left:-180px; ">
+								style="max-width:<?=ceil((($countPhoto <= 4 ? $countPhoto : 4) * 120) - 10)?>px; left:<?if($countPhoto == 2):?>-60px;<?else:?>-180px;<?endif;?> ">
 									<?if($arResult["MORE_PHOTO"] && $popupVideo) {
 
 										$arResult["MORE_PHOTO"] = array_combine(range(1, count($arResult["MORE_PHOTO"])), $arResult["MORE_PHOTO"]);

@@ -404,3 +404,79 @@ BX.saleOrderAjax = {
     });
   },
 };
+
+ BX.addCustomEvent('onAjaxSuccess', function(){
+   $.ajax({
+		type: 'POST',
+		url: '/local/ajax/getCityName.php',
+		data: {code: BX.Sale.OrderAjaxComponent.locations[55][0].lastValue},
+		success: function(city){
+			window.loc_city = city;
+		} 
+   })
+   if($('div[data-property-id-row="56"] .address_variants').length == 0){
+	   $('div[data-property-id-row="56"]').append('<div class="address_variants"><div class="dropdown-item"></div></div>');
+	   $('.address_variants').css('width',$('div[data-property-id-row="56"]').width());
+	   $('#soa-property-56').hide();
+	   $('div[data-property-id-row="56"] .soa-property-container').append('<textarea id="logsis_fake" value="'+ $('#soa-property-56').val()+'">'+ $('#soa-property-56').val()+'</textarea>');
+   }
+   
+
+});
+$(document).on('focus', '#soa-property-56', function(){
+	$('#soa-property-56').hide();
+	$('#logsis_fake').show().focus();
+})
+$(document).on('input', '#logsis_fake', function(){
+	var token = "bc1f45ee73b18f009c7c2c927a855f103d704f1f"; //dadata
+	if(window.loc_city){
+		let addressField = $(this);
+		let url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
+
+		let queryCity = $(this).val();
+		var options = {
+			method: "POST",
+			mode: "cors",
+			headers: {
+				"Content-Type": "application/json",
+				"Accept": "application/json",
+				"Authorization": "Token " + token
+			},
+			body: JSON.stringify({
+				"query": queryCity,
+				"locations": [{
+					"city": window.loc_city
+				}]
+			})
+		}
+
+		fetch(url, options)
+		.then(response => response.text())
+		.then(result => {
+			let res = JSON.parse(result);
+			console.log(res);
+			$('.address_variants .dropdown-item').html('');
+			if (res.suggestions.length != 0) {
+				$('.address_variants').show();
+				res.suggestions.forEach(function(item, i, arr) {
+					$('.address_variants .dropdown-item').append('' +
+						'<div class="address_variant" data-street="'+item.data.street_with_type+'" data-house="'+item.data.house+'">'+ item.value +'</div>');
+					});
+
+				$(document).on('click', '.address_variant', function(){
+					addressField.val($(this).text()).hide();
+					$('#soa-property-56').val($(this).text()).show().focus();
+					$('#soa-property-81').val($(this).data('house'));
+					$('#soa-property-80').val($(this).data('street'));
+					$('.address_variants').hide();
+				})
+				$(document).on('click', 'body', function(){
+					$('.address_variants').hide();
+				})
+			} else {
+				$('.address_variants').hide();
+			}
+		})
+		.catch(error => console.log("error", error));
+	}
+});
