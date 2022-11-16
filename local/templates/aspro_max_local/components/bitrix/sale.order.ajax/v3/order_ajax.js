@@ -2897,7 +2897,7 @@ BX.namespace("BX.Sale.OrderAjaxComponent"), function () {
 
             if (currentDelivery.ID == 39) {
                 var numDeliveryDate = parseInt(3);
-            } else if (currentDelivery.ID == 42 || currentDelivery.ID == 41) {
+            } else if (currentDelivery.ID == 40 || currentDelivery.ID == 41) {
                 var numDeliveryDate = parseInt(0);
             } else {
                 var numDeliveryDate = parseInt(currentDelivery.PERIOD_TEXT.match(/\d+/));
