@@ -1,0 +1,127 @@
+#cwYandexDeliveryModal {
+    opacity: 0;
+    z-index: -999;
+    position: absolute;
+    bottom: -9999px;
+}
+#cwYandexDeliveryLink.hidden {
+    display: none;
+}
+
+.ctweb-yandexdelivery {
+    position: fixed;
+    display: block;
+    border: 1px solid #e3e3e3;
+    background-color: white;
+    box-sizing: border-box;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+    width: 80vw;
+    height: auto;
+    padding: 20px;
+    z-index: 99999;
+}
+
+.ctweb-yandexdelivery .loader {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: .4;
+    background-color: #fff;
+    z-index: 9999;
+}
+.ctweb-yandexdelivery .loader > i {
+    font-size: 40px;
+    position: absolute;
+    top: calc(50% - 20px);
+    left: calc(50% - 20px);
+    display: block;
+}
+.ctweb-yandexdelivery .header {
+    margin-bottom: 10px;
+}
+.ctweb-yandexdelivery .header .title {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+.ctweb-yandexdelivery .header .description p {
+    margin-bottom: 0;
+    border-left: 4px solid lightgrey;
+    padding-left: 10px;
+}
+.ctweb-yandexdelivery .footer .ctweb-yandexdelivery__calculates {
+    border-left: 4px solid dodgerblue;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.ctweb-yandexdelivery .footer .ctweb-yandexdelivery__calculates.error {
+    border-left-color: #e79797;
+}
+.ctweb-yandexdelivery .footer {
+    width: 100%;
+    grid-template-columns: auto 100px 100px;
+    grid-gap: 10px;
+    align-items: center;
+    display: block;
+    margin-top: 10px;
+}
+
+.ctweb-yandexdelivery .footer button {
+    background-color: white;
+    border: 1px solid lightgrey;
+    padding: 10px;
+    cursor: pointer;
+}
+.ctweb-yandexdelivery .footer button.success-btn {
+    background-color: #32ab2b;
+    color: white;
+    border: 1px solid #32ab2b;
+}
+
+.ctweb-yandexdelivery .footer button.alert-btn {
+    background-color: #ff7879;
+    color: white;
+    border: 1px solid #ff7879;
+}
+.ctweb-yandexdelivery + .dark-body {
+    position: fixed;
+    z-index: 9998;
+    background-color: black;
+    opacity: .4;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+@media screen and (max-width: 768px) {
+    .ctweb-yandexdelivery {
+        width: 80vw;
+        height: auto;
+        padding: 20px;
+    }
+}
+@media screen and (max-width: 480px) {
+    .ctweb-yandexdelivery {
+        width: 100vw;
+        height: 100vh;
+        padding: 10px;
+    }
+    .ctweb-yandexdelivery .footer {
+        position: absolute;
+        display: block;
+        bottom: 0;
+        left: 0;
+        padding: 10px;
+        text-align: center;
+    }
+    .ctweb-yandexdelivery .footer button {
+        width: 49%;
+    }
+}

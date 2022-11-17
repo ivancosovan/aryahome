@@ -10,6 +10,18 @@ class saleEvents
     const SBER_PAY_ID = 14;
     const ORDER_DEPOSIT_STATUS = 'F';
 
+
+    //обработчики ограничения доставки
+    public static function myDeliveryFunction()
+    {
+        return new \Bitrix\Main\EventResult(
+            \Bitrix\Main\EventResult::SUCCESS,
+            [
+                '\MyDeliveryRestriction'       => '/local/php_interface/include/mydelrestriction.php',
+            ]
+        );
+    }
+
     /**
      * Смена статуса заказа.
      *
