@@ -2784,7 +2784,17 @@ BX.namespace("BX.Sale.OrderAjaxComponent"), function () {
             }
 
             $('#bx-soa-delivery .deliveries').css("display",'block');
-            if(targetText == "ID_DELIVERY_GROUP_3" || targetText == "ID_DELIVERY_GROUP_4"){
+            $('.bx-soa-customer-field[data-property-id-row="56"]').hide();
+            $('.bx-soa-customer-field[data-property-id-row="80"]').hide();
+            //$('.bx-soa-customer-field[data-property-id-row="26"]').hide();
+            $('.bx-soa-customer-field[data-property-id-row="95"]').hide();
+            $('.bx-soa-customer-field[data-property-id-row="96"]').hide();
+            $('.bx-soa-customer-field[data-property-id-row="81"]').hide();
+            $('.bx-soa-customer-field[data-property-id-row="82"]').hide();
+            $('.bx-soa-customer-field[data-property-id-row="83"]').hide();
+            $('.bx-soa-customer-field[data-property-id-row="84"]').hide();
+            $('.bx-soa-customer-field[data-property-id-row="53"]').hide();
+            if(targetText == "ID_DELIVERY_GROUP_3"){
                 $('.bx-soa-customer-field[data-property-id-row="56"]').css("display",'block');
                 $('.bx-soa-customer-field[data-property-id-row="80"]').css("display",'block');
                 //$('.bx-soa-customer-field[data-property-id-row="26"]').css("display",'block');
@@ -2795,17 +2805,11 @@ BX.namespace("BX.Sale.OrderAjaxComponent"), function () {
                 $('.bx-soa-customer-field[data-property-id-row="83"]').css("display",'block');
                 $('.bx-soa-customer-field[data-property-id-row="84"]').css("display",'block');
                 $('.bx-soa-customer-field[data-property-id-row="53"]').css("display",'block');
-            }else{
-                $('.bx-soa-customer-field[data-property-id-row="56"]').hide();
-                $('.bx-soa-customer-field[data-property-id-row="80"]').hide();
-                //$('.bx-soa-customer-field[data-property-id-row="26"]').hide();
-                $('.bx-soa-customer-field[data-property-id-row="95"]').hide();
-                $('.bx-soa-customer-field[data-property-id-row="96"]').hide();
-                $('.bx-soa-customer-field[data-property-id-row="81"]').hide();
-                $('.bx-soa-customer-field[data-property-id-row="82"]').hide();
-                $('.bx-soa-customer-field[data-property-id-row="83"]').hide();
-                $('.bx-soa-customer-field[data-property-id-row="84"]').hide();
-                $('.bx-soa-customer-field[data-property-id-row="53"]').hide();
+            }else if(targetText == "ID_DELIVERY_GROUP_4"){
+                $('.bx-soa-customer-field[data-property-id-row="84"]').css("display",'block');
+                $('.bx-soa-customer-field[data-property-id-row="82"]').css("display",'block');
+                $('.bx-soa-customer-field[data-property-id-row="95"]').css("display",'block');
+                $('.bx-soa-customer-field[data-property-id-row="96"]').css("display",'block');
             }
 
             $('#bx-soa-delivery .bx-soa-pp-item-container > div').addClass('hidden');
