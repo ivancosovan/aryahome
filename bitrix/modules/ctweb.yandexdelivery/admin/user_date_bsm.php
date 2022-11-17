@@ -1,0 +1,1 @@
+<?define("ctweb_yandexdelivery_TEMPORARY_CACHE", "dTJXBXs2VFZuA3hgBGUKe1B6");?>

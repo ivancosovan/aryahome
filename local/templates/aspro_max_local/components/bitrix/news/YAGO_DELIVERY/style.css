@@ -1,0 +1,6 @@
+.delivery-cancel .error {
+    background: bisque;
+    margin: 3px;
+    padding: 1px 6px;
+    visibility: hidden;
+}

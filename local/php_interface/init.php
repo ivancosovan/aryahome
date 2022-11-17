@@ -22,6 +22,10 @@ CModule::AddAutoloadClasses('', // не указываем имя модуля
 use Bitrix\Main;
 use Yandex\Market;
 $eventManager = Main\EventManager::getInstance();
+
+//ограничения службы доставки
+$eventManager->addEventHandler('sale', 'onSaleDeliveryRestrictionsClassNamesBuildList', ['saleEvents', 'myDeliveryFunction']);
+
 $eventManager->addEventHandler('yandex.market', 'onExportOfferWriteData', function(Main\Event $event) {
 
    $tagResultList = $event->getParameter('TAG_RESULT_LIST');

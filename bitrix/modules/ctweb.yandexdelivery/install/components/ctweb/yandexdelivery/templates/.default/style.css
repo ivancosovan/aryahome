@@ -1,0 +1,50 @@
+.ctweb-yandexdelivery {
+    position: relative;
+}
+.ctweb-yandexdelivery .loader-wrap {
+    display: none;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    background: rgba(255,255,255,.3);
+}
+.ctweb-yandexdelivery .loader-wrap .loader {
+    left: 50%;
+    width: 40px;
+    top: 50%;
+    position: absolute;
+    font-size: 40px;
+    transform: translate(-50%, -50%);
+    display: block;
+}
+
+
+.ctweb-yandexdelivery .header {
+    margin-bottom: 10px;
+}
+.ctweb-yandexdelivery .header .title {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+.ctweb-yandexdelivery .header .description p {
+    margin-bottom: 0;
+    border-left: 4px solid lightgrey;
+    padding-left: 10px;
+}
+.ctweb-yandexdelivery .ctweb-footer .calculates {
+    border-left: 4px solid dodgerblue;
+    padding-left: 10px;
+    margin-bottom: 10px;
+}
+.ctweb-yandexdelivery .ctweb-footer .calculates.error {
+    border-left-color: #e79797;
+}
+.ctweb-yandexdelivery .ctweb-footer {
+    width: 100%;
+    grid-template-columns: auto 100px 100px;
+    grid-gap: 10px;
+    align-items: center;
+    display: block;
+    margin-top: 10px;
+}
