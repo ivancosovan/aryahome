@@ -17,14 +17,14 @@ if (!class_exists('CDeliveryCtwebYandexDelivery')) {
 
             if(self::$flag === true) {
                 self::$flag = false;
-                self::$link_id = "bx_delivery_";
+                self::$link_id = $GLOBALS['APPLICATION']->IncludeComponent("ctweb:yandexdelivery", "order", array(), false);
                 self::$link_id .= "link";
             }
         }
 
         private static function getLink()
         {
-            return "<a href='javascript:void(0);' class='".self::$link_id."'>" . GetMessage("SELECT_LINK_TEXT") . "</a>";
+            return "<a href='javascript:void(0);' id='".self::$link_id."'>" . GetMessage("SELECT_LINK_TEXT") . "</a>";
         }
 
         public static function Init()
@@ -144,7 +144,7 @@ if (!class_exists('CDeliveryCtwebYandexDelivery')) {
                 } else {
                     return array(
                         "RESULT" => "ERROR",
-                        "TEXT" => GetMessage('ERROR_NO_POINT_TEXT') . ' ' . self::getLink(),
+                        "TEXT" => GetMessage('ERROR_NO_POINT_TEXT') . ' ' . self::getLink()
                     );
                 }
             } else {
