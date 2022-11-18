@@ -2810,6 +2810,8 @@ BX.namespace("BX.Sale.OrderAjaxComponent"), function () {
                 $('.bx-soa-customer-field[data-property-id-row="82"]').css("display",'block');
                 $('.bx-soa-customer-field[data-property-id-row="95"]').css("display",'block');
                 $('.bx-soa-customer-field[data-property-id-row="96"]').css("display",'block');
+                //временный костыль клика сразу на доставку
+                $('input#ID_DELIVERY_ID_41').click();
             }
 
             $('#bx-soa-delivery .bx-soa-pp-item-container > div').addClass('hidden');
