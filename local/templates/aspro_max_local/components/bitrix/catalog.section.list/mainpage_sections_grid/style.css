@@ -1,0 +1,191 @@
+.grid{	
+	margin:90px 0;
+}
+.inner-categories__grid {
+  display: grid;
+   grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 400px 400px 400px 600px;
+	gap:15px;
+}
+.grid-title{
+	font-weight:600;
+	margin-bottom:45px;
+	font-size:24px;
+	color:#000;
+}
+.inner-categories__bg{
+	position:absolute;
+	width:100%;
+	height:100%;
+	left:0;
+	top:0;
+	background-color:#00000055;
+}
+.inner-categories__name{
+	position:relative;
+	z-index:10;
+	color:#fff;
+	font-size:36px;
+	line-height:1.5em;
+	font-family:Playfair;
+	text-align:center;
+}
+.inner-categories__item{
+	background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+	position:relative;
+	display:flex;
+	justify-content:center;
+	padding:1em;
+}
+.inner-categories__item:hover .inner-categories__bg{
+	background-color:#00000030;
+}
+.inner-categories__item[data-item="1"]{
+	grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 3;
+}
+.inner-categories__item[data-item="2"]{
+	grid-column-start: 3;
+    grid-column-end: 4;
+    grid-row-start: 1;
+    grid-row-end: 3;
+	/*align-items:center;*/
+}
+.inner-categories__item[data-item="3"]{
+	grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 1;
+    grid-row-end: 2;	
+	/*align-items:center;*/
+}
+.inner-categories__item[data-item="4"]{
+	grid-column-start: 4;
+    grid-column-end: 5;
+    grid-row-start: 2;
+    grid-row-end: 3;	
+	/*align-items:center;*/
+}
+.inner-categories__item[data-item="5"]{
+	grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 4;	
+	/*align-items:center;*/
+}
+.inner-categories__item[data-item="6"]{
+	grid-column-start: 3;
+    grid-column-end: 5;
+    grid-row-start: 3;
+    grid-row-end: 4;	
+	/*align-items:center;*/
+}
+.inner-categories__item[data-item="7"]{
+	grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 4;
+    grid-row-end: 6;	
+	/*align-items:end;*/
+}
+.inner-categories__item[data-item="8"]{
+	grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 4;
+    grid-row-end: 6;
+}
+.inner-categories__item[data-item="9"]{
+	grid-column-start: 3;
+    grid-column-end: 5;
+    grid-row-start: 4;
+    grid-row-end: 6;
+}
+
+@media(max-width:1366px){
+	.inner-categories__grid {
+		grid-template-rows: 330px 330px 330px 500px;
+	}
+}
+@media(max-width:1024px){
+	.inner-categories__grid {
+		grid-template-rows: 250px 250px 250px 370px;
+	}
+	.inner-categories__name{
+		font-size:22px;
+	}
+}
+@media(max-width:768px){
+	.inner-categories__grid {
+		grid-template-rows: 185px 185px 185px 280px;
+		gap:8px;
+	}
+}
+@media(max-width:712px){
+	.inner-categories__grid {
+		grid-template-rows: 172px 172px 172px 258px;
+		gap:8px;
+	}
+}
+@media(max-width: 500px){
+	.inner-categories__grid {
+		grid-template-columns: repeat(2, 1fr);
+		grid-template-rows: 375px 185px 185px 185px 185px 250px 250px;
+	}
+	
+	.inner-categories__item[data-item="1"]{
+		grid-column-start: 1;
+		grid-column-end: 3;
+		grid-row-start: 1;
+		grid-row-end: 2;
+	}
+	.inner-categories__item[data-item="2"]{
+		grid-column-start: 1;
+		grid-column-end: 2;
+		grid-row-start: 2;
+		grid-row-end: 4;
+	}
+	.inner-categories__item[data-item="3"]{
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 2;
+		grid-row-end: 3;	
+	}
+	.inner-categories__item[data-item="4"]{
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 3;
+		grid-row-end: 4;	
+	}
+	.inner-categories__item[data-item="5"]{
+		grid-column-start: 1;
+		grid-column-end: 3;
+		grid-row-start: 4;
+		grid-row-end: 5;	
+	}
+	.inner-categories__item[data-item="6"]{
+		grid-column-start: 1;
+		grid-column-end: 3;
+		grid-row-start: 5;
+		grid-row-end: 6;	
+	}
+	.inner-categories__item[data-item="7"]{
+		grid-column-start: 1;
+		grid-column-end: 2;
+		grid-row-start: 6;
+		grid-row-end: 7;	
+	}
+	.inner-categories__item[data-item="8"]{
+		grid-column-start: 2;
+		grid-column-end: 3;
+		grid-row-start: 6;
+		grid-row-end: 7;
+	}
+	.inner-categories__item[data-item="9"]{
+		grid-column-start: 1;
+		grid-column-end: 3;
+		grid-row-start: 7;
+		grid-row-end: 8;
+	}
+}

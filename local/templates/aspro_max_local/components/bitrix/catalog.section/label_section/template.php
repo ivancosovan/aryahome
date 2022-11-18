@@ -13,12 +13,16 @@
 $this->setFrameMode(true);
 ?>
 <?if($arResult['ITEMS']){?>
-    <section class="products">
+    <section class="maxwidth-theme products">
 		<p class="title_section"><?=$arParams['BLOCK_TITLE']?></p>
         <div class="products__grid _flex" data-pagination="container">
             <?foreach($arResult['ITEMS'] as $item){
 				$item['DETAIL_PAGE_URL'] = '/catalog/'.$arResult['SECTION_CODES'][$item['IBLOCK_SECTION_ID']].'/'.$item['CODE'].'/'; // по нормальному не отдает урл
-				$APPLICATION->IncludeFile($templateFolder."/item.php", Array('ITEM'=>$item), array());
+				
+				$this->AddEditAction($item['ID'], $item['EDIT_LINK'], CIBlock::GetArrayByID($item["IBLOCK_ID"], "ELEMENT_EDIT"));
+				$this->AddDeleteAction($item['ID'], $item['DELETE_LINK'], CIBlock::GetArrayByID($item["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
+				
+				$APPLICATION->IncludeFile($templateFolder."/item.php", Array('ITEM'=>$item, 'this'=>$this), array());
 			}?> 
 			<span class="fake_pagination"><?=getMessage('SHOW_MORE')?></span>
        </div>         

@@ -1,9 +1,8 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 
 $item = $arParams['ITEM'];
-/*  echo '<pre>';
-print_r($item['PROPERTIES']['HIT']);
-echo '</pre>';  */
+$this_section_obj = $arParams['this'];
+
 $price = $item['PRICES']['Онлайн Розница для ИНТЕРНЕТ МАГАЗИНА WMS'];
 $discount_price = $item['PRICES']['Онлайн Розница со скидкой для ИНТЕРНЕТ МАГАЗИНА WMS'];
 if($discount_price['VALUE'] < $price['VALUE']){
@@ -28,7 +27,7 @@ if(!is_file($_SERVER['DOCUMENT_ROOT'].$arFileTmp['src'])){
 $available = $item['CATALOG_AVAILABLE'] == 'Y';
 ?>
 
-<div class="products-product"  data-product="<?=$item['ID']?>">
+<div class="products-product"  data-product="<?=$item['ID']?>" id="<?=$this_section_obj->GetEditAreaID($item['ID'])?>">
 	<div>
 		<div class="products-product__wrapp">
 		 <div class="products-product__btn _flex">
