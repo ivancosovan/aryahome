@@ -50,7 +50,7 @@ BX.namespace('BX.Ctweb.YandexDelivery');
             BX.bindDelegate(
                 document.body,
                 'click', {
-                    attribute: { class: 'bx_delivery_link' }
+                    attribute: { id: this.params.TEMPLATE.LINK }
                 },
                 BX.proxy(this.ModalOpen, this)
             );
