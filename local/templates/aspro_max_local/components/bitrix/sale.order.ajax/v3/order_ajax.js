@@ -422,9 +422,9 @@ BX.namespace("BX.Sale.OrderAjaxComponent"), function () {
         }, showBlockErrors: function (node) {
             var errorDel = this.result.ERROR.DELIVERY;
             for (i in this.result.DELIVERY) {
-                if (this.result.DELIVERY[i].CHECKED == "Y" && this.result.DELIVERY[i].CALCULATE_ERRORS != undefined && this.result.DELIVERY[i].CALCULATE_ERRORS != "") {
+                if (this.result.DELIVERY[i].ID == "41" && this.result.DELIVERY[i].CHECKED == "Y" && this.result.DELIVERY[i].CALCULATE_DESCRIPTION != undefined && this.result.DELIVERY[i].CALCULATE_DESCRIPTION != "") {
                     var err = []
-                    err.push(this.result.DELIVERY[i].CALCULATE_ERRORS);
+                    err.push(this.result.DELIVERY[i].PERIOD_TEXT);
                     errorDel = err
                 }
             }

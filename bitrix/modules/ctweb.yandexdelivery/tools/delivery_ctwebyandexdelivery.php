@@ -24,7 +24,7 @@ if (!class_exists('CDeliveryCtwebYandexDelivery')) {
 
         private static function getLink()
         {
-            return "<a href='javascript:void(0);' id='".self::$link_id."'>" . GetMessage("SELECT_LINK_TEXT") . "</a>";
+            return "<a class='d-inline-block bg-active text-white round px-4' href='' onclick='ctwebShow()'>" . GetMessage("SELECT_LINK_TEXT") . "</a>";
         }
 
         public static function Init()
@@ -139,12 +139,13 @@ if (!class_exists('CDeliveryCtwebYandexDelivery')) {
                     return array(
                         "RESULT" => "OK",
                         'VALUE' => $arPrice['PRICE'],
-                        "TRANSIT" => $address
+                        "TRANSIT" => $address . '<br>' . self::getLink()
                     );
                 } else {
                     return array(
-                        "RESULT" => "ERROR",
-                        "TEXT" => GetMessage('ERROR_NO_POINT_TEXT') . ' ' . self::getLink()
+                        "RESULT" => "OK",
+                        "TEXT" => GetMessage('ERROR_NO_POINT_TEXT'),
+                        "TRANSIT" => GetMessage('ERROR_NO_POINT_TEXT') . ' ' . self::getLink(),
                     );
                 }
             } else {

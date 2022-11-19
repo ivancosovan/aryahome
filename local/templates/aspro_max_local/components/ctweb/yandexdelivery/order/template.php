@@ -45,6 +45,10 @@ $templateIDs = &$arResult['JSPARAMS']['TEMPLATE'];
     //
     //  Example handlers
     //
+    function ctwebShow() {
+        $('.cwYandexDeliveryModal').css('z-index', 9999);
+        $('.cwYandexDeliveryModal').css('opacity', 1);
+    }
 
     BX.addCustomEvent('yandexdelivery.initialized', function (controller) {
         // Set focus to nearest store
