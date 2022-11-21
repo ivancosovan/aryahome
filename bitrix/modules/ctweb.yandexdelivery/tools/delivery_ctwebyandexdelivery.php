@@ -144,8 +144,8 @@ if (!class_exists('CDeliveryCtwebYandexDelivery')) {
                 } else {
                     return array(
                         "RESULT" => "OK",
-                        "TEXT" => GetMessage('ERROR_NO_POINT_TEXT'),
-                        "TRANSIT" => GetMessage('ERROR_NO_POINT_TEXT') . ' ' . self::getLink(),
+                        "TEXT" => self::getLink(),
+                        "TRANSIT" => GetMessage('ERROR_NO_POINT_TEXT')
                     );
                 }
             } else {
