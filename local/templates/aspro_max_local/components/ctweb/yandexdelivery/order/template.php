@@ -22,7 +22,7 @@ $templateIDs = &$arResult['JSPARAMS']['TEMPLATE'];
                 <?=$arResult['MESSAGES']['DESCRIPTION']?>
             </div>
 
-            <input type="text" id="suggest" class="yamaps-suggest-input" placeholder="Найти"/>
+            <input type="text" id="suggest" class="yamaps-suggest-input" placeholder="Адрес:" autocomplete="off" style="border: 1px solid;">
         </div>
         <div class="body">
             <div id="<?= $templateIDs['SPINNER']; ?>" class="loader-wrap"><div class="loader"><i class="fa fa-spinner fa-spin"></i></div></div>
