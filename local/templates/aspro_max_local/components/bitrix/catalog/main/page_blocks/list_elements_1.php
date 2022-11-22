@@ -397,11 +397,9 @@ if(isset($isAjaxFilter) && $isAjaxFilter == "Y")
 
 				// исключаем дубликаты
 
-
-
-				
-				
-				
+				if($template == 'catalog_block'){
+					$template = 'new_catalog_block';
+				}
 				?>
 				
 				<?$APPLICATION->IncludeComponent(

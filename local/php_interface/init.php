@@ -1331,4 +1331,10 @@ function ShowBasketWithCompareLinkCustom($class_link='top-btn hover', $class_ico
 		<?endif;?>
 	<?endif;?>
 <?}
+
+function dump($arr){
+	echo '<pre>';
+	print_r($arr);
+	echo '</pre>';
+}
 ?>

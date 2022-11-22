@@ -572,8 +572,11 @@ $bHideLeftBlock = $APPLICATION->GetDirProperty('HIDE_LEFT_BLOCK') == 'Y' || ($ar
 				ob_start();
 				include_once 'sort.php';
 				$htmlSort = ob_get_clean();
+				if($template == 'catalog_block'){
+					$template = 'new_catalog_block_with_left_block';
+				}
 				$listElementsTemplate = $template;
-
+			
 				// filter
 				ob_start();
 				include_once 'filter.php';
