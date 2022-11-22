@@ -124,6 +124,18 @@ class YaGo {
         $headers[] = 'Authorization: Bearer '.$options['token'];
         $headers[] = 'Accept-Language: *';
         $headers[] = 'Connection: keep-alive';
+        $basket = $order->getBasket();
+        $items = [];
+        foreach ($basket as $k => $basketItem) {
+            $items[$k]["cost_currency"] = "RUB";
+            $items[$k]["cost_value"] = (string)$basketItem->getFinalPrice();
+            $items[$k]["droppof_point"] = 2;
+            $items[$k]["pickup_point"] = 1;
+            $items[$k]["quantity"] = $basketItem->getQuantity();
+            $items[$k]["title"] = $basketItem->getField('NAME');
+            $items[$k]["weight"] = $basketItem->getWeight() / 1000;
+        }
+
         $array = array(
             "client_requirements" => $client_requirements,
             "comment" => $options["pickup_name"],
@@ -131,17 +143,7 @@ class YaGo {
                     "name" => $options['emergency_name'],
                     "phone" => $emergencyPhone
                 ],
-            "items" => [
-                    array(
-                        "cost_currency" => "RUB",
-                        "cost_value" => (string)$order->getPrice(),
-                        "droppof_point" => 2,
-                        "pickup_point" => 1,
-                        "quantity" => 1,
-                        "title" => "Товары для дома",
-                        "weight" => $basketWeight / 1000
-                    ),
-                ],
+            "items" => $items,
             "optional_return" => false,
             "route_points" => [
                     array(
