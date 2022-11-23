@@ -10,6 +10,7 @@ $MESS["EUTILS_YAGO_OPTIONS_TAB_EXPRESS_W"] = "Максимальный вес д
 $MESS["EUTILS_YAGO_OPTIONS_TAB_HTTPS_ON"] = "сайт работает по https";
 $MESS["EUTILS_YAGO_OPTIONS_TAB_LOG_ENABLED"] = "Писать лог";
 $MESS["EUTILS_YAGO_OPTIONS_TAB_PVZ_ON"] = "Режим доставки в ВПЗ (в случае выбора самовывоза)";
+$MESS["EUTILS_YAGO_OPTIONS_TAB_DUE"] = "Вызов курьера 'Ко времени', целое число в минутах";
 $MESS["EUTILS_YAGO_OPTIONS_TAB_PICKUP_NAME"] = "Название магазина";
 $MESS["EUTILS_YAGO_OPTIONS_TAB_EMERGENCY_NAME"] = "Контакт для связи (имя)";
 $MESS["EUTILS_YAGO_OPTIONS_TAB_EMERGENCY_PHONE"] = "Контакт для связи (телефон, с +7)";
