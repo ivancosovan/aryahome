@@ -207,6 +207,15 @@ class YaGo {
             "skip_door_to_door" => false,
             "skip_emergency_notify" => true
         );
+        if ($options["due"] != "") {
+            $minutes_to_add = $options["due"];
+
+            $time = new DateTime(date("c", time()));
+            $time->add(new DateInterval('PT'.$minutes_to_add.'M'));
+            $stamp = $time->format('c');
+
+            $array["due"] = $stamp;
+        }
 
         //если вдруг сервер будет возвращать 50* то делаем три попытки
         for($i=0;$i<=2;$i++)
@@ -360,7 +369,8 @@ class YaGo {
                 'pvz_comment' => Option::get("eutils.yago", "pvz_comment", self::$defaultPvzComment),
                 'sms_true' => (Option::get("eutils.yago", "sms_true", "") == "Y") ? true : false,
                 'sms_true_destination' => (Option::get("eutils.yago", "sms_true_destination", "") == "Y") ? true : false,
-                'only_partner' => Option::get("eutils.yago", "only_partner", "")
+                'only_partner' => Option::get("eutils.yago", "only_partner", ""),
+                'due' => Option::get("eutils.yago", "due", "")
             );
     }
     

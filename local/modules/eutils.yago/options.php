@@ -134,6 +134,13 @@ $aTabs = array(
                 "*"
             ),
             array(
+                "due",
+                Loc::getMessage("EUTILS_YAGO_OPTIONS_TAB_DUE"),
+                "",
+                array("text", 35),
+                ""
+            ),
+            array(
                 "common_comment",
                 Loc::getMessage("EUTILS_YAGO_OPTIONS_TAB_COMMON_COMMENT"),
                 "",
