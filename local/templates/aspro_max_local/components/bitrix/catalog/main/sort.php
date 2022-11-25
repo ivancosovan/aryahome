@@ -233,7 +233,7 @@ $bShowSortInFilter = ($arParams['SHOW_SORT_IN_FILTER'] != 'N');
 				<?endif;?>
 			<?endforeach;?>
 		</div>
-		<?/*if($display == 'block'):?>
+		<?if($display == 'block'):?>
 			<div class="filter-panel__view controls-linecount pull-right">
 				<?$arLineCount = [3,4];?>
 				<?if(array_key_exists("linerow", $_REQUEST) || (array_key_exists("linerow", $_SESSION)) || $arParams["LINE_ELEMENT_COUNT"])
@@ -275,7 +275,7 @@ $bShowSortInFilter = ($arParams['SHOW_SORT_IN_FILTER'] != 'N');
 				<?endforeach;?>
 				<div class="controls-hr"></div>
 			</div>
-		<?endif;*/?>
+		<?endif;?>
 		<div class="clearfix"></div>
 	<!--/noindex-->
 </div>

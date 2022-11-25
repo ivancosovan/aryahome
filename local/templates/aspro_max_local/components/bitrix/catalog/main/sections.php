@@ -118,7 +118,7 @@ $sort_elem_order = 'asc';
 		<?//дополнительные элементы?>
 			<?$APPLICATION->IncludeComponent(
 					"bitrix:catalog.section",
-					"new_catalog_block",
+					"catalog_block",
 					Array(
 						"USE_REGION" => ($arRegion ? "Y" : "N"),
 						"STORES" => $arParams['STORES'],

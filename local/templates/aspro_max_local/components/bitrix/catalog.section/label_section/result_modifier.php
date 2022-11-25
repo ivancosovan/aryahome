@@ -8,7 +8,7 @@ if($arResult['ITEMS']){
 		$arResult['PRODUCTS'][] = $arItem['ID'];
 		
 		$arSort= Array("NAME"=>"ASC");
-		$arSelect = Array("ID","NAME","DETAIL_PAGE_URL","PROPERTY_NAIMENOVANIE_DLYA_SAYTA","PROPERTY_RAZMER", "PROPERTY_OBSHCHIY_RAZMER_DLYA_SAYTA","PROPERTY_TSVET", "CATALOG_PRICE_7", "CATALOG_PRICE_8");
+		$arSelect = Array("ID","NAME","DETAIL_PAGE_URL","PROPERTY_NAIMENOVANIE_DLYA_SAYTA","PROPERTY_RAZMER", "PROPERTY_OBSHCHIY_RAZMER_DLYA_SAYTA","PROPERTY_TSVET");
 		  $arFilter = Array(
 			"IBLOCK_ID" => $arParams['IBLOCK_ID'], 
 			"PROPERTY_TSVET" => array($arItem['PROPERTIES']['TSVET']['VALUE']),
@@ -40,10 +40,7 @@ if($arResult['ITEMS']){
 			  $arr["ID"] = $arFields['ID'];
 			  $arr["DETAIL_PAGE_URL"] = $arFields['DETAIL_PAGE_URL'];
 			  $arr["RAZMER"] = $arFields['PROPERTY_OBSHCHIY_RAZMER_DLYA_SAYTA_VALUE'] ? $arFields['PROPERTY_OBSHCHIY_RAZMER_DLYA_SAYTA_VALUE'] : $arFields['PROPERTY_RAZMER_VALUE'];
-			  $arr['PRICES'] = array(number_format($arFields['CATALOG_PRICE_7'], 0, '', ' ') .' ₽');
-			  if($arFields['CATALOG_PRICE_8']>0 && $arFields['CATALOG_PRICE_7']>$arFields['CATALOG_PRICE_8']){
-				  $arr['PRICES'][] = number_format($arFields['CATALOG_PRICE_8'], 0, '', ' ') .' ₽';
-			  }
+
 			  // Присваем индексы для дальнейшей сортировки
 			  $arr["ORDER"] = array_key_exists($arr["RAZMER"], $sizesOrder) ?  $sizesOrder[$arr["RAZMER"]] : 0;
 
