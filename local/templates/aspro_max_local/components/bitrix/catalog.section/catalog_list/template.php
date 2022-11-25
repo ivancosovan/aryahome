@@ -141,15 +141,15 @@
 					<div class="image_block">
 						<div class="image_wrapper_block js-notice-block__image">
 							<?\Aspro\Functions\CAsproMaxItem::showStickers($arParams, $arItem, true);?>
-							<?if($arParams['SHOW_GALLERY'] == 'Y'):?>
-								<?if($bUseSkuProps && $arItem["OFFERS"]):?>
+							<?//if($arParams['SHOW_GALLERY'] == 'Y'):?>
+								<?/*if($bUseSkuProps && $arItem["OFFERS"]):?>
 									<?\Aspro\Functions\CAsproMaxItem::showSectionGallery( array('ITEM' => $arItem["OFFERS"][$arItem["OFFERS_SELECTED"]], 'RESIZE' => $arResult['CUSTOM_RESIZE_OPTIONS']) );?>
 								<?else:?>
 									<?\Aspro\Functions\CAsproMaxItem::showSectionGallery( array('ITEM' => $arItem, 'RESIZE' => $arResult['CUSTOM_RESIZE_OPTIONS']) );?>
 								<?endif;?>
-							<?else:?>
+							<?else:*/?>
 								<?\Aspro\Functions\CAsproMaxItem::showImg($arParams, $arItem, false);?>
-							<?endif;?>
+							<?//endif;?>
 						</div>
 						<?if($bNormalView && ($arParams['USE_FAST_VIEW'] != 'N')):?>
 							<?if($fast_view_text_tmp = CMax::GetFrontParametrValue('EXPRESSION_FOR_FAST_VIEW'))
