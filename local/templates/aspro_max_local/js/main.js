@@ -6760,9 +6760,7 @@ $(document).ready(function () {
                   // th.hide();
                   $(".to-cart[data-item=" + item + "]").hide();
 				  $(".products-product__incart[data-item=" + item + "]").removeClass('.to-cart').text('✓ В корзине').attr('onclick','window.location.href="/basket/"');
-				  $('.products-product[data-product="'+item+'"]').find('.variantz.active').removeClass('inwished').addClass('inbasket');
 				  $(".products-product[data-product=" + item + "]").find('.wish_item').removeClass('active');
-				  
                   $(".to-cart[data-item=" + item + "]")
                     .closest(".counter_wrapp")
                     .find(".counter_block_inner")
@@ -7198,7 +7196,6 @@ $(document).ready(function () {
                     }
                   }
 				  $('.products-product[data-product="'+item2+'"]').find('.wish_item').addClass('active');
-				  $('.products-product[data-product="'+item2+'"]').find('.variantz.active').removeClass('inbasket').addClass('inwished');
 				  $('.products-product[data-product="'+item2+'"]').find('.products-product__incart').addClass('to-cart').removeAttr('onclick').text('В корзину');
 				  
                 } else {
@@ -7615,9 +7612,7 @@ $(document).ready(function () {
     if (th.closest(".ajax_load").length && !mobileBottomClicked) {
       th.removeClass("loading");
       if (th.closest(".ajax_load").find(".js_append").length) {
-		if (th.closest(".ajax_load").find(".products__grid").length) {
-			 th.closest(".ajax_load").find(".js_append").append($(".products-product", html))
-		} else if (_this.closest(".catalog_in_content").length) {
+        if (_this.closest(".catalog_in_content").length) {
           th.closest(".ajax_load").find(".js_append").append($(".inner_wrapper .js_wrapper_items>", html)); //need for brands & landings
         } else if (_this.closest(".catalog.search").length) {
           th.closest(".ajax_load").find(".js_append").append($(".js_append>", html));
