@@ -22,7 +22,7 @@ $this->setFrameMode(true);
 				$this->AddEditAction($item['ID'], $item['EDIT_LINK'], CIBlock::GetArrayByID($item["IBLOCK_ID"], "ELEMENT_EDIT"));
 				$this->AddDeleteAction($item['ID'], $item['DELETE_LINK'], CIBlock::GetArrayByID($item["IBLOCK_ID"], "ELEMENT_DELETE"), array("CONFIRM" => GetMessage('CT_BNL_ELEMENT_DELETE_CONFIRM')));
 				
-				$APPLICATION->IncludeFile($templateFolder."/item.php", Array('ITEM'=>$item, 'this'=>$this, 'params'=>$arParams), array());
+				$APPLICATION->IncludeFile("/local/page_blocks/mwi_item_block.php", Array('ITEM'=>$item, 'this'=>$this, 'params'=>$arParams), array());
 			}?> 
 			<span class="fake_pagination"><?=getMessage('SHOW_MORE')?></span>
        </div>         

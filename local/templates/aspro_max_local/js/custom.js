@@ -150,3 +150,14 @@ $(document).on('click', '.variantz', function(){
 	$(this).closest('.products-product').find('.variantz.active').removeClass('active');
 	$(this).addClass('active');
 });
+
+$(document).on('mouseenter', '.products-product .gallery_container span', function(){
+	var img = $(this).attr('data-photo');
+	$(this).closest('.products-product').find('.products-product__img img').attr('src', img);
+})
+$(document).on('mouseout', '.products-product', function(){
+	if($(this).find('.gallery_container').length>0){
+		var img = $(this).find('.gallery_container span').first().attr('data-photo');
+		$(this).find('.products-product__thumb img').attr('src', img);
+	}
+})

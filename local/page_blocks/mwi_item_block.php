@@ -5,6 +5,18 @@ $this_section_obj = $arParams['this'];
 $arParams= $arParams['params'];
 $price = $item['PRICES']['Онлайн Розница для ИНТЕРНЕТ МАГАЗИНА WMS'];
 $discount_price = $item['PRICES']['Онлайн Розница со скидкой для ИНТЕРНЕТ МАГАЗИНА WMS'];
+if(!$price){
+	$price = current($item['PRICE_MATRIX']['MATRIX'][7])['DISCOUNT_PRICE'];
+	$price = array(
+		'VALUE'=>$price,
+		'PRINT_DISCOUNT_VALUE'=> number_format($price, 0, '', ' ') .' ₽'
+	);
+	$discount_price = current($item['PRICE_MATRIX']['MATRIX'][8])['DISCOUNT_PRICE'];
+	$discount_price = array(
+		'VALUE'=>$discount_price,
+		'PRINT_DISCOUNT_VALUE'=> number_format($discount_price, 0, '', ' ') .' ₽'
+	);
+}
 if($discount_price['VALUE'] < $price['VALUE']){
 	$percent = 100-intval($discount_price['VALUE']*100 / $price['VALUE']);
 } else {
@@ -17,11 +29,29 @@ if($item['DETAIL_PICTURE']){
             array("width" => 500, "height" => 500),
             BX_RESIZE_IMAGE_EXACT,
         );
-	$item['PICTURE'] = $arFileTmp['src'];
+	if(is_file($_SERVER['DOCUMENT_ROOT'].$arFileTmp['src'])){
+		$item['GALLERY'][] = $arFileTmp['src'];
+	}
 }
-
-if(!is_file($_SERVER['DOCUMENT_ROOT'].$arFileTmp['src'])){
-	$item['PICTURE'] = '/local/img/picture.missing_square.png';
+$kph = 0;
+if($item['PROPERTIES']['MORE_PHOTO']['VALUE']){
+	foreach($item['PROPERTIES']['MORE_PHOTO']['VALUE'] as $kph=>$photo){
+		$arFileTmp = CFile::ResizeImageGet(
+            $photo,
+            array("width" => 500, "height" => 500),
+            BX_RESIZE_IMAGE_EXACT,
+        );
+		if(is_file($_SERVER['DOCUMENT_ROOT'].$arFileTmp['src'])){
+			$item['GALLERY'][] = $arFileTmp['src'];
+			$kph++;
+		}
+		if($kph>2){
+			break;
+		}
+	}
+}
+if(!$item['GALLERY']){
+	$item['GALLERY'][] = '/local/img/picture.missing_square.png';
 }
 
 $available = $item['CATALOG_AVAILABLE'] == 'Y';
@@ -33,7 +63,7 @@ if ($fast_view_text_tmp = \CMax::GetFrontParametrValue('EXPRESSION_FOR_FAST_VIEW
 
 <div class="products-product"  data-product="<?=$item['ID']?>" id="<?=$this_section_obj->GetEditAreaID($item['ID'])?>">
 	<div>
-		<div class="products-product__wrapp">
+		<a href="<?=$item['DETAIL_PAGE_URL']?>" class="products-product__wrapp">
 		 <div class="products-product__btn _flex">
 			<span class="favorite-btn favorite-js wish_item" data-item="<?=$item['ID']?>">
 				   <svg width="32" height="31" viewBox="0 0 32 31" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,12 +102,20 @@ if ($fast_view_text_tmp = \CMax::GetFrontParametrValue('EXPRESSION_FOR_FAST_VIEW
 					<?}?>
 				</div>
 			<?}?>
-			<a href="<?=$item['DETAIL_PAGE_URL']?>" class="products-product__thumb">
+			<div class="products-product__thumb">
 				<span class="products-product__img">
-					<img src="<?=$item['PICTURE']?>" alt="<?=$item['NAME']?>" class="lozad">
+					<img src="<?=current($item['GALLERY'])?>" alt="<?=$item['NAME']?>" class="lozad">
 				</span>
-			</a>
-		</div>
+			</div>
+			
+			<?if(count($item['GALLERY']>1)){?>
+				<div class="gallery_container">
+					<?foreach($item['GALLERY'] as $photo){?>
+						<span data-photo="<?=$photo?>"></span>
+					<?}?>
+				</div>	
+			<?}?>
+		</a>
 		 <div class="products-product__box">
 			 <div class="products-product__name">
 				<a href="<?=$item['DETAIL_PAGE_URL']?>"><?=$item['NAME']?></a>
