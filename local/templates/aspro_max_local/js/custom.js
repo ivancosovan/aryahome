@@ -146,6 +146,7 @@ $(document).on('click', '.variantz', function(){
 	}
 	$(this).closest('.products-product').find('a.products-product__thumb').attr('href', sizeData.DETAIL_PAGE_URL);
 	$(this).closest('.products-product').find('.products-product__name a').attr('href', sizeData.DETAIL_PAGE_URL);
+	$(this).closest('.products-product').find('.fast_view_button span').attr('data-param-item_href', sizeData.DETAIL_PAGE_URL).attr('data-param-id',sizeData.ID).data('param-item_href', sizeData.DETAIL_PAGE_URL).data('param-id',sizeData.ID);
 	$(this).closest('.products-product').find('.variantz.active').removeClass('active');
 	$(this).addClass('active');
 });

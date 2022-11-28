@@ -2,7 +2,7 @@
 
 $item = $arParams['ITEM'];
 $this_section_obj = $arParams['this'];
-
+$arParams= $arParams['params'];
 $price = $item['PRICES']['Онлайн Розница для ИНТЕРНЕТ МАГАЗИНА WMS'];
 $discount_price = $item['PRICES']['Онлайн Розница со скидкой для ИНТЕРНЕТ МАГАЗИНА WMS'];
 if($discount_price['VALUE'] < $price['VALUE']){
@@ -25,6 +25,10 @@ if(!is_file($_SERVER['DOCUMENT_ROOT'].$arFileTmp['src'])){
 }
 
 $available = $item['CATALOG_AVAILABLE'] == 'Y';
+if ($fast_view_text_tmp = \CMax::GetFrontParametrValue('EXPRESSION_FOR_FAST_VIEW'))
+		$fast_view_text = $fast_view_text_tmp;
+	else
+		$fast_view_text = Loc::getMessage('FAST_VIEW');
 ?>
 
 <div class="products-product"  data-product="<?=$item['ID']?>" id="<?=$this_section_obj->GetEditAreaID($item['ID'])?>">
@@ -53,7 +57,9 @@ $available = $item['CATALOG_AVAILABLE'] == 'Y';
 			</span>
 			
 		</div>
-		
+		<div class="fast_view_button 3 fast_view_button--full fast_view_button_cus">
+			<span title="<?= $fast_view_text ?>" class="rounded2 font_upper_xs" data-sort-elems="<?=strtolower($arParams['ELEMENT_SORT_FIELD'])?>:<?=strtolower($arParams['ELEMENT_SORT_ORDER'])?>,<?=strtolower($arParams['ELEMENT_SORT_FIELD2'])?>:<?=strtolower($arParams['ELEMENT_SORT_ORDER2'])?>" data-event="jqm" data-param-form_id="fast_view" data-param-iblock_id="<?= $arParams["IBLOCK_ID"]; ?>" data-param-id="<?= $item["ID"]; ?>" data-param-item_href="<?= urlencode($item["DETAIL_PAGE_URL"]); ?>" data-name="fast_view"><?= \CMax::showIconSvg("fw ", SITE_TEMPLATE_PATH . "/images/svg/quickview" . $typeSvg . ".svg"); ?><?= $fast_view_text ?></span>
+		</div>
 		<?if($percent){?>
 			<div class="products-product-prices__discount" data-discount="<?=$percent?>">-<?=$percent?>%</div>
 		<?}?>

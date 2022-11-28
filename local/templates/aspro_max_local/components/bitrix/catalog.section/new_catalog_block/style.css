@@ -207,3 +207,10 @@
 	}
 
 }
+.fast_view_button{
+	text-align:center;
+}
+.products-product__wrapp:hover .fast_view_button{
+	visibility: visible;
+    opacity: 1;
+}
