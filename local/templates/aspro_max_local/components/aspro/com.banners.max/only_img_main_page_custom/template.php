@@ -37,7 +37,7 @@
 												$GLOBALS['arrFilterProduct'] = array('!PROPERTY_SHOW_PRODUCT_MAIN' => false);?>
 												<?$APPLICATION->IncludeComponent(
 													"bitrix:catalog.section", 
-													"catalog_block_main", 
+													"new_catalog_block_main", 
 													array(
 														"USE_REGION" => ($arRegion?"Y":"N"),
 														"STORES" => array(
