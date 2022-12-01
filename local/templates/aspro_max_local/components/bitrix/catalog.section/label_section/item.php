@@ -55,7 +55,7 @@ $available = $item['CATALOG_AVAILABLE'] == 'Y';
 		</div>
 		
 		<?if($percent){?>
-			<div class="products-product-prices__discount" style="display:none;" data-discount="<?=$percent?>">-<?=$percent?>%</div>
+			<div class="products-product-prices__discount" data-discount="<?=$percent?>">-<?=$percent?>%</div>
 		<?}?>
 			<?if($item['PROPERTIES']['HIT']['VALUE']){?>
 				<div class="stickerz">
