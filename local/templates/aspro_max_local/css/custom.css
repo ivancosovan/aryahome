@@ -1459,6 +1459,8 @@ body .basket-link-custom .js-basket-block .svg svg path {
 	display:flex;
 	gap:1em;
 	margin:1em 0;
+	font-weight: 700;
+    color: #333;
 }
 .products-product-prices__price{
 	font-size:28px;
