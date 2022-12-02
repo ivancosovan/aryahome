@@ -80,5 +80,6 @@ $templateIDs = &$arResult['JSPARAMS']['TEMPLATE'];
 
         if (!e.error && calcInput)
             calcInput.innerHTML = e.ADDRESS + "<br>" + calcInput.innerHTML;
+
     });
 </script>
