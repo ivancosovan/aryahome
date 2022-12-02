@@ -144,7 +144,7 @@ $(document).on('click', '.variantz', function(){
 	} else {
 		$(this).closest('.products-product').find('.products-product-prices__price').text(sizeData.PRICES[0]);
 	}
-	$(this).closest('.products-product').find('a.products-product__thumb').attr('href', sizeData.DETAIL_PAGE_URL);
+	$(this).closest('.products-product').find('.products-product__wrapp').attr('href', sizeData.DETAIL_PAGE_URL);
 	$(this).closest('.products-product').find('.products-product__name a').attr('href', sizeData.DETAIL_PAGE_URL);
 	$(this).closest('.products-product').find('.fast_view_button span').attr('data-param-item_href', sizeData.DETAIL_PAGE_URL).attr('data-param-id',sizeData.ID).data('param-item_href', sizeData.DETAIL_PAGE_URL).data('param-id',sizeData.ID);
 	$(this).closest('.products-product').find('.variantz.active').removeClass('active');
