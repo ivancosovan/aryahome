@@ -24,7 +24,7 @@ if (!class_exists('CDeliveryCtwebYandexDelivery')) {
 
         private static function getLink()
         {
-            return "<a class='d-inline-block bg-active text-white round px-4' href='' onclick='ctwebShow()'>" . GetMessage("SELECT_LINK_TEXT") . "</a>";
+            return "<span class='d-inline-block bg-active text-white round px-4' onclick='ctwebShow();return false;'>" . GetMessage("SELECT_LINK_TEXT") . "</span>"; // fix: reload page by click on html a tag custom v1 
         }
 
         public static function Init()
