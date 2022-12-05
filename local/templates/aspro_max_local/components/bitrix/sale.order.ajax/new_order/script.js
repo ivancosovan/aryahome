@@ -404,3 +404,21 @@ BX.saleOrderAjax = {
     });
   },
 };
+
+/**
+ * fix empty fio order property
+ * 50 property code FIO
+ * 102 property code NAME
+ * 103 property code SURNAME
+ */
+
+$(document).on('change', '#soa-property-102', function() {
+  $('#soa-property-50').val($('#soa-property-102').val());
+  if ( $('#soa-property-103').val() !== '') {
+    $('#soa-property-50').val($('#soa-property-102').val() + ' ' + $('#soa-property-103').val());
+  }
+});
+
+$(document).on('change', '#soa-property-103', function() {
+  $('#soa-property-50').val($('#soa-property-102').val() + ' ' + $('#soa-property-103').val());
+});
