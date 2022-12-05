@@ -12,6 +12,7 @@
     z-index: -999;
     position: absolute;
     bottom: -9999px;
+	display: none;
 }
 #cwYandexDeliveryLink.hidden {
     display: none;

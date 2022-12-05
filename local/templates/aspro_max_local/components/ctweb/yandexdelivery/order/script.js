@@ -83,6 +83,7 @@ BX.namespace('BX.Ctweb.YandexDelivery');
             if (this.obModal) {
                 BX.adjust(this.obModal, {
                     style: {
+						'display': 'block', // fix header blocked overlay custom v1
                         'opacity': '1',
                         'z-index': '9999',
                         'position': 'inherit',
@@ -94,6 +95,7 @@ BX.namespace('BX.Ctweb.YandexDelivery');
             if (this.obModal) {
                 BX.adjust(this.obModal, {
                     style: {
+						'display': 'none', // fix header blocked overlay custom v1
                         'opacity': '0',
                         'z-index': '-999',
                         'position': 'absolute',

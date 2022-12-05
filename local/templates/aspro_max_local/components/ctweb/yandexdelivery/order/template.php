@@ -46,6 +46,7 @@ $templateIDs = &$arResult['JSPARAMS']['TEMPLATE'];
     //  Example handlers
     //
     function ctwebShow() {
+		$('.cwYandexDeliveryModal').css('display', 'block'); // fix header blocked overlay custom v1
         $('.cwYandexDeliveryModal').css('z-index', 9999);
         $('.cwYandexDeliveryModal').css('opacity', 1);
     }
