@@ -422,3 +422,40 @@ $(document).on('change', '#soa-property-102', function() {
 $(document).on('change', '#soa-property-103', function() {
   $('#soa-property-50').val($('#soa-property-102').val() + ' ' + $('#soa-property-103').val());
 });
+
+/**
+ * fix empty address for courier delivery
+ */
+
+$(document).on('change', '#soa-property-56, #soa-property-81, #soa-property-83, #soa-property-95, #soa-property-96, #soa-property-82', function() {
+  $('#soa-property-115').val(getAddress());
+});
+
+const getAddress = () => {
+  let location = $('.bx-ui-sls-fake').attr('title');
+  let arrLocation = location.split(',');
+  let address = $('#soa-property-56').val();
+  let house = $('#soa-property-81').val();
+  let corpus = $('#soa-property-83').val();
+  let podezd = $('#soa-property-95').val();
+  let floor = $('#soa-property-96').val();
+  let appart = $('#soa-property-82').val();
+
+  let finalAddress = arrLocation[0] + ', ул. '+ address;
+  if (house) {
+    finalAddress = finalAddress + ', д. '+ house;
+  }
+  if (appart) {
+    finalAddress = finalAddress + ', кв. '+ appart;
+  }
+  if (corpus) {
+    finalAddress = finalAddress + ', корп. '+ corpus;
+  }
+  if (podezd) {
+    finalAddress = finalAddress + ', под. '+ podezd;
+  }
+  if (floor) {
+    finalAddress = finalAddress + ', эт. '+ floor;
+  }
+  return finalAddress;
+}

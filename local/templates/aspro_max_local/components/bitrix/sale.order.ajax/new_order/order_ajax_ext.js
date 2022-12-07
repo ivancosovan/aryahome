@@ -3369,7 +3369,8 @@ BX.namespace("BX.Sale.OrderAjaxComponent"),
             this.editDeliveryInfo(deliveryNode),
             this.showPropInDelivery("ADDRESS", deliveryNode, BX.message("SOA_ADDRESS")),
             this.showPropInDelivery("STREET", deliveryNode), // add custom delivery prop in Delivery block custom v1
-            this.showSlimPropInDelivery("HOUSE", deliveryNode),
+            this.showPropInDelivery("COURIER", deliveryNode),
+			this.showSlimPropInDelivery("HOUSE", deliveryNode),
             this.showSlimPropInDelivery("CORPUS", deliveryNode),
             this.showSlimPropInDelivery("INTERCOM", deliveryNode),
             this.showSlimPropInDelivery("PODEZD", deliveryNode),
@@ -4538,6 +4539,7 @@ BX.namespace("BX.Sale.OrderAjaxComponent"),
                 "APARTAMENT" !== property.getSettings().CODE &&
                 "INFO_PVZ" !== property.getSettings().CODE &&
                 "ORDER_PVZ" !== property.getSettings().CODE &&
+				"COURIER" !== property.getSettings().CODE &&
                 this.getPropertyRowNode(property, propsInnerWrapper, !1);
             (propsItemsContainer = BX.create("DIV", {
               props: { className: "col-sm-12 bx-soa-customer" },
