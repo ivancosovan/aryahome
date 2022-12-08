@@ -2,9 +2,10 @@
 #main .wrapper1 .header_wrap {
   z-index: 3;
 }
-div[data-property-id-row="50"] {
+div[data-property-id-row="50"], .bx-soa-pp-company-item.COURIER {
   display: none;
 }
+
 .bx-soa {
   padding-bottom: 20px;
   padding-top: 20px;
