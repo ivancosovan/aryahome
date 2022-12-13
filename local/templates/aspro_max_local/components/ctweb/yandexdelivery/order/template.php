@@ -46,6 +46,7 @@ $templateIDs = &$arResult['JSPARAMS']['TEMPLATE'];
     //  Example handlers
     //
     function ctwebShow() {
+		$('.cwYandexDeliveryModal').css('display', 'block'); // fix header blocked overlay custom v1
         $('.cwYandexDeliveryModal').css('z-index', 9999);
         $('.cwYandexDeliveryModal').css('opacity', 1);
     }
@@ -80,5 +81,6 @@ $templateIDs = &$arResult['JSPARAMS']['TEMPLATE'];
 
         if (!e.error && calcInput)
             calcInput.innerHTML = e.ADDRESS + "<br>" + calcInput.innerHTML;
+
     });
 </script>

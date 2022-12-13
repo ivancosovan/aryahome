@@ -83,6 +83,7 @@ BX.namespace('BX.Ctweb.YandexDelivery');
             if (this.obModal) {
                 BX.adjust(this.obModal, {
                     style: {
+						'display': 'block', // fix header blocked overlay custom v1
                         'opacity': '1',
                         'z-index': '9999',
                         'position': 'inherit',
@@ -94,6 +95,7 @@ BX.namespace('BX.Ctweb.YandexDelivery');
             if (this.obModal) {
                 BX.adjust(this.obModal, {
                     style: {
+						'display': 'none', // fix header blocked overlay custom v1
                         'opacity': '0',
                         'z-index': '-999',
                         'position': 'absolute',
@@ -103,7 +105,16 @@ BX.namespace('BX.Ctweb.YandexDelivery');
         };
         BX.Ctweb.YandexDelivery.OrderController.prototype.Choose = function() {
             var self = this;
-            if (self.lastRoute && self.currentAddress != undefined) {
+
+            if (self.lastRoute && self.currentAddress != 'undefined') {
+
+                let addressInput = document.querySelector('.ADDRESS textarea'); // add address in order properties inputs list custom v1
+                let houseInput = document.querySelector('.HOUSE input');
+                let addressArray = self.currentAddress.split(',');
+                console.log(addressArray);
+                addressInput.value = self.currentAddress;
+                houseInput.value = addressArray[addressArray.length - 1];
+
                 var params = {
                     pointTo: self.currentPoint,
                     calculated: {

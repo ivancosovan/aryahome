@@ -6759,6 +6759,8 @@ $(document).ready(function () {
                 if (data.STATUS === "OK") {
                   // th.hide();
                   $(".to-cart[data-item=" + item + "]").hide();
+				  $(".products-product__incart[data-item=" + item + "]").removeClass('.to-cart').text('✓ В корзине').attr('onclick','window.location.href="/basket/"');
+				  $(".products-product[data-product=" + item + "]").find('.wish_item').removeClass('active');
                   $(".to-cart[data-item=" + item + "]")
                     .closest(".counter_wrapp")
                     .find(".counter_block_inner")
@@ -7193,6 +7195,9 @@ $(document).ready(function () {
                       else basketFly("wish");
                     }
                   }
+				  $('.products-product[data-product="'+item2+'"]').find('.wish_item').addClass('active');
+				  $('.products-product[data-product="'+item2+'"]').find('.products-product__incart').addClass('to-cart').removeAttr('onclick').text('В корзину');
+				  
                 } else {
                   showBasketError(
                     BX.message(data.MESSAGE) + " <br/>" + data.MESSAGE_EXT,
