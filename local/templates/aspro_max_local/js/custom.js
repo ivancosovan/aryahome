@@ -161,3 +161,18 @@ $(document).on('mouseout', '.products-product', function(){
 		$(this).find('.products-product__thumb img').attr('src', img);
 	}
 })
+
+$(document).ready(function(){
+	if(window.innerWidth>910){
+		$('.products-product').hover(
+			function(){
+				var block = $(this).clone();
+				block.addClass('hovered');
+				$(this).append(block);
+			},
+			function(){
+				$(this).find('.hovered').remove();
+			}
+		)
+	}
+})
