@@ -56,10 +56,10 @@
 	}
 }
 @media(max-width:350px){
-	.products__grid>div{
+	.main_page_block .products__grid>div{
 		font-size:12px;
 	}
-	.stickerz__sticker:nth-child(n+2){
+	.main_page_block .stickerz__sticker:nth-child(n+2){
 		display:none;
 	}
 
