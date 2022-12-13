@@ -265,7 +265,7 @@ class YaGo {
                 && !empty($result['same_day_delivery']['available_intervals'])
             ) {
                 $array["same_day_data"] = [
-                    'delivery_interval' => $result['same_day_delivery']['available_intervals'][3]
+                    'delivery_interval' => $result['same_day_delivery']['available_intervals'][0]
                 ];
 
                 if($result["code"]) {
