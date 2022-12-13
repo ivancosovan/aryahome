@@ -21,7 +21,9 @@ $arSort = array('SORT' => 'ASC', 'ID' => 'DESC');
    while ($row = $res->fetch()) {
       $itemID = $row["ID"];
       $rideID = $row["PROPERTY_CLAIM_ID_VALUE"];
-      YaGoRequests::updateRequest($rideID, false);
+      if ($rideID) {
+          YaGoRequests::updateRequest($rideID, false);
+      }
    }
 ?>
 <?if($arParams["USE_RSS"]=="Y"):?>

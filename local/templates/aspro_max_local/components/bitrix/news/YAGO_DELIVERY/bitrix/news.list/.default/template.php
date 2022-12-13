@@ -81,7 +81,7 @@ $this->setFrameMode(true);
 	</p>
 	<div>
         <?
-        if($arItem['PROPERTIES']['status']['VALUE_SORT'] < 300){?>
+        if($arItem['PROPERTIES']['status']['VALUE_SORT'] < 300 && $arItem['PROPERTIES']['CLAIM_ID']['VALUE']){?>
                 <a class="delivery-cancel" data-claim="<?=$arItem['PROPERTIES']['CLAIM_ID']['VALUE']?>" data-state="<?=$arItem['PROPERTIES']['available_cancel_state']['VALUE']?>" href="">Отменить<?=($arItem['PROPERTIES']['status']['VALUE_SORT'] > 100) ? " +₽" : ""?><span class="error">отмена не удалась</span></a>
         <?}?>
 	</div>

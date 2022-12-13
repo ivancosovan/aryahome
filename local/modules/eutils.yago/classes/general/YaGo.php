@@ -110,12 +110,12 @@ class YaGo {
                 );
         if ($basketWeight > floatval($options["express_weight"])){
             if($basketWeight <= 300000){
-                            $cargoType = "van";
-                        }else if($basketWeight <= 700000){
-                            $cargoType = "lcv_m";
-                        }else if ($basketWeight <= 1400000){
-                            $cargoType = "lcv_l";
-                        }
+                $cargoType = "van";
+            }else if($basketWeight <= 700000){
+                $cargoType = "lcv_m";
+            }else if ($basketWeight <= 1400000){
+                $cargoType = "lcv_l";
+            }
         }
         if($cargoType)
             $client_requirements["cargo_type"] = $cargoType;
@@ -127,6 +127,15 @@ class YaGo {
         $basket = $order->getBasket();
         $items = [];
         foreach ($basket as $k => $basketItem) {
+            $dbEl = CIBlockElement::GetList(Array(), Array("IBLOCK_ID" => 3, "ID" => $basketItem->getProductId()));
+            if($obEl = $dbEl->GetNextElement())
+            {
+                $props = $obEl->GetProperties();
+            }
+            $height = isset($props['VGKH_VYSOTA_M']) ? $props['VGKH_VYSOTA_M']['VALUE'] / 100 : false;
+            $length = isset($props['VGKH_DLINA_M']) ? $props['VGKH_DLINA_M']['VALUE'] / 100 : false;
+            $width = isset($props['VGKH_SHIRINA_M']) ? $props['VGKH_SHIRINA_M']['VALUE'] / 100 : false;
+
             $items[$k]["cost_currency"] = "RUB";
             $items[$k]["cost_value"] = (string)$basketItem->getFinalPrice();
             $items[$k]["droppof_point"] = 2;
@@ -134,6 +143,13 @@ class YaGo {
             $items[$k]["quantity"] = $basketItem->getQuantity();
             $items[$k]["title"] = $basketItem->getField('NAME');
             $items[$k]["weight"] = $basketItem->getWeight() / 1000;
+            if ($height && $length && $width) {
+                $items[$k]["size"] = [
+                    'height' => $height,
+                    'length' => $length,
+                    'width' => $width,
+                ];
+            }
         }
 
         $array = array(
@@ -207,7 +223,8 @@ class YaGo {
             "skip_door_to_door" => false,
             "skip_emergency_notify" => true
         );
-        if ($options["due"] != "") {
+        //доставка ко времени (+ N минут от времени создания)
+        if ($options["due"] != "" && $options["tariff"] == 'due') {
             $minutes_to_add = $options["due"];
 
             $time = new DateTime(date("c", time()));
@@ -215,26 +232,81 @@ class YaGo {
             $stamp = $time->format('c');
 
             $array["due"] = $stamp;
-        }
+        } else if ($options["tariff"] == 'day') {
+            //доставка В течение дня
+            //запрос на доступные интервалы:
+            $headersInterval = array();
+            $headersInterval[] = 'Content-Type: application/json';
+            $headersInterval[] = 'Authorization: Bearer '.$options['token'];
+            $headersInterval[] = 'Accept-Language: *';
 
-        //если вдруг сервер будет возвращать 50* то делаем три попытки
-        for($i=0;$i<=2;$i++)
-        {
-            $ch = curl_init('https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id='.md5($arOrderVals["ACCOUNT_NUMBER"]."v".$arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"]));
+            $ch = curl_init('https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/delivery-methods');
             curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($array, JSON_UNESCAPED_UNICODE));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode(
+                [
+                    'fullname' => $arStoreFrom['ADDRESS'],
+                    'start_point' => [
+                        floatval($arStoreFrom["GPS_S"]),
+                        floatval($arStoreFrom["GPS_N"])
+                    ]
+                ], JSON_UNESCAPED_UNICODE));
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
             // curl_setopt($ch, CURLOPT_HEADER, 1);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, $headersInterval);
             $html = curl_exec($ch);
             curl_close($ch);
             $result = json_decode($html, true);
-            if($result["code"])
-                file_put_contents($_SERVER["DOCUMENT_ROOT"].'/log/yago_'.date("d.m.Y").'.log', date('[d-m-Y H:i] ') . print_r("Ошибка: url: https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=".md5($arOrderVals["ACCOUNT_NUMBER"]."v".$arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"])." answer: ", true) . print_r($html, true) . PHP_EOL, FILE_APPEND | LOCK_EX);
-            if(!$result["code"] || strpos($result["code"], '50') !== 0)
-                break;
-            sleep(1);
+
+            if (
+                isset($result['same_day_delivery'])
+                && isset($result['same_day_delivery']['allowed'])
+                && $result['same_day_delivery']['allowed'] == 1
+                && !empty($result['same_day_delivery']['available_intervals'])
+            ) {
+                $array["same_day_data"] = [
+                    'delivery_interval' => $result['same_day_delivery']['available_intervals'][3]
+                ];
+
+                if($result["code"]) {
+                    $code = $result["code"];
+                    $message = $result["message"];
+                    file_put_contents($_SERVER["DOCUMENT_ROOT"] . '/log/yago_' . date("d.m.Y") . '.log', date('[d-m-Y H:i] ') . print_r("Ошибка: url: https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/delivery-methods order: " . $arOrderVals["ACCOUNT_NUMBER"] . " answer: ", true) . print_r($html, true) . PHP_EOL, FILE_APPEND | LOCK_EX);
+                }
+
+                unset($array['client_requirements']);
+            } else {
+                $code = 400;
+                $message = 'Нет доступных интервалов доставки';
+                file_put_contents($_SERVER["DOCUMENT_ROOT"].'/log/yago_'.date("d.m.Y").'.log', date('[d-m-Y H:i] ') . print_r("Ошибка: url: https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/delivery-methods order: " . $arOrderVals["ACCOUNT_NUMBER"] . " answer: {$message}", true) . PHP_EOL, FILE_APPEND | LOCK_EX);
+
+                return true;
+            }
+        }
+
+        //если вдруг сервер будет возвращать 50* то делаем три попытки
+        if ($code || $message) {
+            $result['code'] = $code;
+            $result['message'] = $message;
+            $html = [$code, $message];
+        } else {
+            for ($i = 0; $i <= 2; $i++) {
+                $ch = curl_init('https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=' . md5($arOrderVals["ACCOUNT_NUMBER"] . "v" . $arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"]));
+                curl_setopt($ch, CURLOPT_POST, 1);
+                curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($array, JSON_UNESCAPED_UNICODE));
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+                // curl_setopt($ch, CURLOPT_HEADER, 1);
+                curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+                $html = curl_exec($ch);
+                curl_close($ch);
+                $result = json_decode($html, true);
+                if ($result["code"])
+                    file_put_contents($_SERVER["DOCUMENT_ROOT"] . '/log/yago_' . date("d.m.Y") . '.log', date('[d-m-Y H:i] ') . print_r("Ошибка: url: https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=" . md5($arOrderVals["ACCOUNT_NUMBER"] . "v" . $arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"]) . " answer: ", true) . print_r($html, true) . PHP_EOL, FILE_APPEND | LOCK_EX);
+                if (!$result["code"] || strpos($result["code"], '50') !== 0)
+                    break;
+                sleep(1);
+            }
         }
 
         if($options['log_on'] == "Y")
@@ -253,7 +325,7 @@ class YaGo {
         {
             $iblockId = $ar_res['ID'];
         }
-        if($result['status'] == "new") {
+        if($result['status'] == "new" || ($result['code'] && $result['message'])) {
             //сначала удаляем старые элементы
             $arFilter = array("IBLOCK_ID"=>$iblockId);
             $iCount = CIBlockElement::GetList(false, $arFilter, array(), false);
@@ -271,22 +343,25 @@ class YaGo {
 
             $PROP = array();
             $fullName = 'Доставка Яндекс.GO заказа #'.$arOrderVals["ACCOUNT_NUMBER"]." v".$arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"];
+            $PROP['ERROR_MESSAGE'] = $result['message'] ?: '';
             $PROP['ORDER_ID'] = $arOrderVals["ACCOUNT_NUMBER"];
-            $PROP['CLAIM_ID'] = $result['id'];
-            $PROP['eta'] = $result['eta'];
-            $PROP['version'] = $result['version'];
-            $property_enums = CIBlockPropertyEnum::GetList(Array("DEF"=>"DESC", "SORT"=>"ASC"), Array("IBLOCK_ID"=>$iblockId, "CODE"=>"status", "XML_ID"=>$result['status'] ));
-            while($enum_fields = $property_enums->GetNext())
-            {
-                $PROP['status'] = $enum_fields["ID"];
+            $PROP['CLAIM_ID'] = $result['id'] ?: '';
+            $PROP['eta'] = $result['eta'] ?: '';
+            $PROP['version'] = $result['version'] ?: '';
+            if (isset($result['status'])) {
+                $property_enums = CIBlockPropertyEnum::GetList(array("DEF" => "DESC", "SORT" => "ASC"), array("IBLOCK_ID" => $iblockId, "CODE" => "status", "XML_ID" => $result['status']));
+                while ($enum_fields = $property_enums->GetNext()) {
+                    $PROP['status'] = $enum_fields["ID"];
+                }
             }
-            $property_enums = CIBlockPropertyEnum::GetList(Array("DEF"=>"DESC", "SORT"=>"ASC"), Array("IBLOCK_ID"=>$iblockId, "CODE"=>"available_cancel_state", "XML_ID"=>$result['available_cancel_state'] ));
-            while($enum_fields = $property_enums->GetNext())
-            {
-                $PROP['available_cancel_state'] = $enum_fields["ID"];
+            if (isset($result['available_cancel_state'])) {
+                $property_enums = CIBlockPropertyEnum::GetList(array("DEF" => "DESC", "SORT" => "ASC"), array("IBLOCK_ID" => $iblockId, "CODE" => "available_cancel_state", "XML_ID" => $result['available_cancel_state']));
+                while ($enum_fields = $property_enums->GetNext()) {
+                    $PROP['available_cancel_state'] = $enum_fields["ID"];
+                }
             }
-            $PROP['PICKUP'] = $result['route_points'][0]['address']['fullname'];
-            $PROP['DESTINATION'] = $result['route_points'][1]['address']['fullname'];
+            $PROP['PICKUP'] = $result['route_points'][0]['address']['fullname'] ?: '';
+            $PROP['DESTINATION'] = $result['route_points'][1]['address']['fullname'] ?: '';
             $PROP['request_id'] = md5($arOrderVals["ACCOUNT_NUMBER"]."v".$arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"]);
             //транслит симв кода
             $params = Array(
@@ -318,7 +393,9 @@ class YaGo {
             }
             $rDate = new DateTime('+30 seconds');
             $newTime = $rDate->format('d.m.Y H:i:s');
-            CAgent::AddAgent('YaGoRequests::updateRequest("'.$result['id'].'", false);', 'eutils.yago', 'N', 30, "", 'Y', $newTime);
+            if (!isset($result['code'])) {
+                CAgent::AddAgent('YaGoRequests::updateRequest("' . $result['id'] . '", false);', 'eutils.yago', 'N', 30, "", 'Y', $newTime);
+            }
         }else if($result['id']){
             //обновляем элемент
             self::updateIblock($result['id'],$result);
@@ -370,7 +447,8 @@ class YaGo {
                 'sms_true' => (Option::get("eutils.yago", "sms_true", "") == "Y") ? true : false,
                 'sms_true_destination' => (Option::get("eutils.yago", "sms_true_destination", "") == "Y") ? true : false,
                 'only_partner' => Option::get("eutils.yago", "only_partner", ""),
-                'due' => Option::get("eutils.yago", "due", "")
+                'due' => Option::get("eutils.yago", "due"),
+                'tariff' => Option::get("eutils.yago", "tariff")
             );
     }
     

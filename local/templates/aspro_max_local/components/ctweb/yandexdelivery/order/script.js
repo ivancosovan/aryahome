@@ -105,6 +105,7 @@ BX.namespace('BX.Ctweb.YandexDelivery');
         };
         BX.Ctweb.YandexDelivery.OrderController.prototype.Choose = function() {
             var self = this;
+
             if (self.lastRoute && self.currentAddress != 'undefined') {
 
                 let addressInput = document.querySelector('.ADDRESS textarea'); // add address in order properties inputs list custom v1
