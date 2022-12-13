@@ -16,7 +16,7 @@ if($rsElem = CIBlockElement::GetById($arResult["VARIABLES"]["ELEMENT_ID"])){
 if($arElem = $rsElem->GetNextElement())
     $arProps = $arElem->GetProperties();
 }
-if(!in_array($arProps["status"]["VALUE"], array("estimating_failed","failed","performer_not_found","cancelled_by_taxi")))
+if(!in_array($arProps["status"]["VALUE"], array("estimating_failed","failed","performer_not_found","cancelled_by_taxi")) && $arProps["CLAIM_ID"]["VALUE"])
   YaGoRequests::updateRequest($arProps["CLAIM_ID"]["VALUE"], false);
 ?>
 <?$ElementID = $APPLICATION->IncludeComponent(

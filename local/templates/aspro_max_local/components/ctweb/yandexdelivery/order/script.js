@@ -103,7 +103,7 @@ BX.namespace('BX.Ctweb.YandexDelivery');
         };
         BX.Ctweb.YandexDelivery.OrderController.prototype.Choose = function() {
             var self = this;
-            if (self.lastRoute && self.currentAddress != 'undefined') {
+            if (self.lastRoute && self.currentAddress != undefined) {
                 var params = {
                     pointTo: self.currentPoint,
                     calculated: {

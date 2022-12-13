@@ -77,7 +77,7 @@ $this->setFrameMode(true);
 		<?}?>
 	<?endforeach;?>
 	<?
-    if($arResult['PROPERTIES']['status']['VALUE_SORT'] < 300){?>
+    if($arResult['PROPERTIES']['status']['VALUE_SORT'] < 300 && $arResult['PROPERTIES']['CLAIM_ID']['VALUE']){?>
             <a class="delivery-cancel" data-claim="<?=$arResult['PROPERTIES']['CLAIM_ID']['VALUE']?>" data-state="<?=$arResult['PROPERTIES']['available_cancel_state']['VALUE']?>" href="">Отменить<?=($arResult['PROPERTIES']['status']['VALUE_SORT'] > 100) ? " +₽" : ""?><span class="error">отмена не удалась</span></a>
     <?}?>
 	<?if(array_key_exists("USE_SHARE", $arParams) && $arParams["USE_SHARE"] == "Y")

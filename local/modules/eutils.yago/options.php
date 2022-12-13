@@ -134,6 +134,14 @@ $aTabs = array(
                 "*"
             ),
             array(
+                "tariff",
+                Loc::getMessage("EUTILS_YAGO_OPTIONS_TAB_TARIF"),
+                "express",
+                array("selectbox", ['express' => 'Срочная', 'day' => 'В течение дня', 'due' => 'Ко времени']),
+                "",
+                "*"
+            ),
+            array(
                 "due",
                 Loc::getMessage("EUTILS_YAGO_OPTIONS_TAB_DUE"),
                 "",

@@ -163,7 +163,7 @@ while($ar_res = $res->Fetch())
 			3 => "DRIVER_TIME",
 			4 => "DELIVERED_TIME",
 			5 => "RIDE_STATUS",
-			6 => "",
+			6 => "ERROR_MESSAGE",
 		),
 		"LIST_VIEW" => "slider",
 		"MAIN_GALLERY_PROPERTY_CODE" => "-",
