@@ -1682,3 +1682,6 @@ body .basket-link-custom .js-basket-block .svg svg path {
 .gallery_container span{
 	flex-grow:1;
 }
+.drag-block.CATALOG_SECTIONS{
+	overflow:visible;
+}
