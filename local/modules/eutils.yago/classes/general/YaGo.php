@@ -276,8 +276,8 @@ class YaGo {
 
                 unset($array['client_requirements']);
             } else {
-                $code = 400;
-                $message = 'Нет доступных интервалов доставки';
+                $code = $result["code"];
+                $message = $result["message"];
             }
         }
 
