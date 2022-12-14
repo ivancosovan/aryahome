@@ -278,9 +278,6 @@ class YaGo {
             } else {
                 $code = 400;
                 $message = 'Нет доступных интервалов доставки';
-                file_put_contents($_SERVER["DOCUMENT_ROOT"].'/log/yago_'.date("d.m.Y").'.log', date('[d-m-Y H:i] ') . print_r("Ошибка: url: https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/delivery-methods order: " . $arOrderVals["ACCOUNT_NUMBER"] . " answer: {$message}", true) . PHP_EOL, FILE_APPEND | LOCK_EX);
-
-                return true;
             }
         }
 
@@ -288,7 +285,7 @@ class YaGo {
         if ($code || $message) {
             $result['code'] = $code;
             $result['message'] = $message;
-            $html = [$code, $message];
+            $html = json_encode(['code' => $code, 'message' => $message], JSON_UNESCAPED_UNICODE);
         } else {
             for ($i = 0; $i <= 2; $i++) {
                 $ch = curl_init('https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=' . md5($arOrderVals["ACCOUNT_NUMBER"] . "v" . $arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"]));
@@ -309,7 +306,7 @@ class YaGo {
             }
         }
 
-        if($options['log_on'] == "Y")
+        if($options['log_on'] == "Y" || $code)
             file_put_contents($_SERVER["DOCUMENT_ROOT"].'/log/yago_'.date("d.m.Y").'.log', date('[d-m-Y H:i] ') . print_r("request: ".json_encode($array, JSON_UNESCAPED_UNICODE)." url: https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=".md5($arOrderVals["ACCOUNT_NUMBER"]."v".$arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"])." answer: ", true) . print_r($html, true) . PHP_EOL, FILE_APPEND | LOCK_EX);
         
         //создаем элемент инфоблока
