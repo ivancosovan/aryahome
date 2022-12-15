@@ -281,6 +281,8 @@ class YaGo {
             }
         }
 
+        $version = $arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"] ?: '1';
+
         //если вдруг сервер будет возвращать 50* то делаем три попытки
         if ($code || $message) {
             $result['code'] = $code;
@@ -288,7 +290,7 @@ class YaGo {
             $html = json_encode(['code' => $code, 'message' => $message], JSON_UNESCAPED_UNICODE);
         } else {
             for ($i = 0; $i <= 2; $i++) {
-                $ch = curl_init('https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=' . md5($arOrderVals["ACCOUNT_NUMBER"] . "v" . $arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"]));
+                $ch = curl_init('https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=' . md5($arOrderVals["ACCOUNT_NUMBER"] . "v" . $version));
                 curl_setopt($ch, CURLOPT_POST, 1);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($array, JSON_UNESCAPED_UNICODE));
                 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -299,7 +301,7 @@ class YaGo {
                 curl_close($ch);
                 $result = json_decode($html, true);
                 if ($result["code"])
-                    file_put_contents($_SERVER["DOCUMENT_ROOT"] . '/log/yago_' . date("d.m.Y") . '.log', date('[d-m-Y H:i] ') . print_r("Ошибка: url: https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=" . md5($arOrderVals["ACCOUNT_NUMBER"] . "v" . $arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"]) . " answer: ", true) . print_r($html, true) . PHP_EOL, FILE_APPEND | LOCK_EX);
+                    file_put_contents($_SERVER["DOCUMENT_ROOT"] . '/log/yago_' . date("d.m.Y") . '.log', date('[d-m-Y H:i] ') . print_r("Ошибка: url: https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=" . md5($arOrderVals["ACCOUNT_NUMBER"] . "v" . $version) . " answer: ", true) . print_r($html, true) . PHP_EOL, FILE_APPEND | LOCK_EX);
                 if (!$result["code"] || strpos($result["code"], '50') !== 0)
                     break;
                 sleep(1);
@@ -307,7 +309,7 @@ class YaGo {
         }
 
         if($options['log_on'] == "Y" || $code)
-            file_put_contents($_SERVER["DOCUMENT_ROOT"].'/log/yago_'.date("d.m.Y").'.log', date('[d-m-Y H:i] ') . print_r("request: ".json_encode($array, JSON_UNESCAPED_UNICODE)." url: https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=".md5($arOrderVals["ACCOUNT_NUMBER"]."v".$arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"])." answer: ", true) . print_r($html, true) . PHP_EOL, FILE_APPEND | LOCK_EX);
+            file_put_contents($_SERVER["DOCUMENT_ROOT"].'/log/yago_'.date("d.m.Y").'.log', date('[d-m-Y H:i] ') . print_r("request: ".json_encode($array, JSON_UNESCAPED_UNICODE)." url: https://b2b.taxi.yandex.net/b2b/cargo/integration/v2/claims/create?request_id=".md5($arOrderVals["ACCOUNT_NUMBER"]."v".$version)." answer: ", true) . print_r($html, true) . PHP_EOL, FILE_APPEND | LOCK_EX);
         
         //создаем элемент инфоблока
         CModule::IncludeModule("iblock");
@@ -339,7 +341,7 @@ class YaGo {
             $el = new CIBlockElement;
 
             $PROP = array();
-            $fullName = 'Доставка Яндекс.GO заказа #'.$arOrderVals["ACCOUNT_NUMBER"]." v".$arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"];
+            $fullName = 'Доставка Яндекс.GO заказа #'.$arOrderVals["ACCOUNT_NUMBER"]." v".$version;
             $PROP['ERROR_MESSAGE'] = $result['message'] ?: '';
             $PROP['ORDER_ID'] = $arOrderVals["ACCOUNT_NUMBER"];
             $PROP['CLAIM_ID'] = $result['id'] ?: '';
@@ -359,7 +361,7 @@ class YaGo {
             }
             $PROP['PICKUP'] = $result['route_points'][0]['address']['fullname'] ?: '';
             $PROP['DESTINATION'] = $result['route_points'][1]['address']['fullname'] ?: '';
-            $PROP['request_id'] = md5($arOrderVals["ACCOUNT_NUMBER"]."v".$arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"]);
+            $PROP['request_id'] = md5($arOrderVals["ACCOUNT_NUMBER"]."v".$version);
             //транслит симв кода
             $params = Array(
                 "max_len" => "100", // обрезает символьный код до 100 символов
@@ -386,7 +388,7 @@ class YaGo {
             }
             else{
                 //запись в файл
-                file_put_contents($_SERVER["DOCUMENT_ROOT"].'/log/yago_'.date("d.m.Y").'.log', date('[d-m-Y H:i] ') . $arOrderVals["ACCOUNT_NUMBER"].$arProps["EUTILS_YAGO_ISORDERED"]["VALUE"]["VALUE"] . " Элемент не создан" . PHP_EOL, FILE_APPEND | LOCK_EX);
+                file_put_contents($_SERVER["DOCUMENT_ROOT"].'/log/yago_'.date("d.m.Y").'.log', date('[d-m-Y H:i] ') . $arOrderVals["ACCOUNT_NUMBER"].$version . " Элемент не создан" . PHP_EOL, FILE_APPEND | LOCK_EX);
             }
             $rDate = new DateTime('+30 seconds');
             $newTime = $rDate->format('d.m.Y H:i:s');
