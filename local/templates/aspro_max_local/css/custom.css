@@ -1537,7 +1537,7 @@ body .basket-link-custom .js-basket-block .svg svg path {
     font-size: 12px;
     padding: 0.25em 1em;
 }
-.products-product__incart, .wish_item{
+.products-product__incart, .products-product .wish_item{
 	display:block!important;
 }
 .products-product__bot{

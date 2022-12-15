@@ -2509,7 +2509,7 @@ if (!funcDefined("showBasketError")) {
       thButton = th;
     }
     $("body").append("<span class='add-error-bakset' style='display:none;'></span>");
-    jqmEd("basket_error", "error-bakset", ".add-error-bakset", mess, this, title_set, isButton, thButton);
+   // jqmEd("basket_error", "error-bakset", ".add-error-bakset", mess, this, title_set, isButton, thButton);
     $("body .add-error-bakset").click();
     $("body .add-error-bakset").remove();
 
