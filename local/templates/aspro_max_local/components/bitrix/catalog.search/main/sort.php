@@ -16,8 +16,9 @@ else{
 	$display = "block";
 }
 $template = "catalog_".$display;
-
-
+if($display == 'block'){
+	$template = "new_catalog_block_with_left_block";
+}
 if($arTheme['HEADER_TYPE']['VALUE'] == 28 || $arTheme['HEADER_TYPE']['VALUE'] == 29)
 {
 	$APPLICATION->SetPageProperty("HIDE_LEFT_BLOCK", "Y");
