@@ -26,7 +26,7 @@ if($discount_price['VALUE'] < $price['VALUE']){
 if($item['DETAIL_PICTURE']){
 	$arFileTmp = CFile::ResizeImageGet(
             $item["DETAIL_PICTURE"],
-            array("width" => 500, "height" => 500),
+            array("width" => 600, "height" => 800),
             BX_RESIZE_IMAGE_EXACT,
         );
 	if(is_file($_SERVER['DOCUMENT_ROOT'].$arFileTmp['src'])){
@@ -38,7 +38,7 @@ if($item['PROPERTIES']['MORE_PHOTO']['VALUE']){
 	foreach($item['PROPERTIES']['MORE_PHOTO']['VALUE'] as $kph=>$photo){
 		$arFileTmp = CFile::ResizeImageGet(
             $photo,
-            array("width" => 500, "height" => 500),
+            array("width" => 600, "height" => 800),
             BX_RESIZE_IMAGE_EXACT,
         );
 		if(is_file($_SERVER['DOCUMENT_ROOT'].$arFileTmp['src'])){
@@ -51,7 +51,7 @@ if($item['PROPERTIES']['MORE_PHOTO']['VALUE']){
 	}
 }
 if(!$item['GALLERY']){
-	$item['GALLERY'][] = '/local/img/picture.missing_square.png';
+	$item['GALLERY'][] = '/local/img/picture.missing_vertical.png';
 }
 
 $available = $item['CATALOG_AVAILABLE'] == 'Y';

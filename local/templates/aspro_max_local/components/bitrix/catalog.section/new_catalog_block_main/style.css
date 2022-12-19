@@ -55,12 +55,3 @@
 		display:none;
 	}
 }
-@media(max-width:350px){
-	.main_page_block .products__grid>div{
-		font-size:12px;
-	}
-	.main_page_block .stickerz__sticker:nth-child(n+2){
-		display:none;
-	}
-
-}
