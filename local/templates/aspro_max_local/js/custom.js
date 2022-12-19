@@ -161,8 +161,7 @@ $(document).on('mouseout', '.products-product', function(){
 		$(this).find('.products-product__thumb img').attr('src', img);
 	}
 })
-
-$(document).ready(function(){
+function hoverCards(){
 	if(window.innerWidth>910){
 		$('.products-product').hover(
 			function(){
@@ -175,4 +174,7 @@ $(document).ready(function(){
 			}
 		)
 	}
+}
+$(document).ready(function(){
+	hoverCards();
 })

@@ -7612,7 +7612,9 @@ $(document).ready(function () {
     if (th.closest(".ajax_load").length && !mobileBottomClicked) {
       th.removeClass("loading");
       if (th.closest(".ajax_load").find(".js_append").length) {
-        if (_this.closest(".catalog_in_content").length) {
+        if (th.closest(".ajax_load").find(".products__grid").length) {
+			 th.closest(".ajax_load").find(".js_append").append($(".products-product", html))
+		} else if (_this.closest(".catalog_in_content").length) {
           th.closest(".ajax_load").find(".js_append").append($(".inner_wrapper .js_wrapper_items>", html)); //need for brands & landings
         } else if (_this.closest(".catalog.search").length) {
           th.closest(".ajax_load").find(".js_append").append($(".js_append>", html));
@@ -7721,6 +7723,7 @@ $(document).ready(function () {
       }, 100);
     }
     BX.onCustomEvent("onHeaderProgressBarChange", [{}]);
+	hoverCards();
     initCountdown();
     InitOwlSlider();
   }
