@@ -1664,6 +1664,12 @@ body .basket-link-custom .js-basket-block .svg svg path {
 	.stickerz__sticker:nth-child(n+2){
 		display:none;
 	}
+	.products-product-prices__price{
+		font-size:14px;
+	}
+	.products__grid{
+		gap:0.5em;
+	}
 
 }
 .fast_view_button{
