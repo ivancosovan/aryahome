@@ -1667,8 +1667,12 @@ body .basket-link-custom .js-basket-block .svg svg path {
 	.products-product-prices__price{
 		font-size:14px;
 	}
-	.products__grid{
+	.products__grid:not(.with_left){
 		gap:0.5em;
+	}
+	.products-product-prices__discount{
+		width:30px;
+		height:30px;
 	}
 
 }
