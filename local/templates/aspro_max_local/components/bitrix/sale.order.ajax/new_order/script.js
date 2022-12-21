@@ -423,12 +423,20 @@ $(document).on('change', '#soa-property-103', function() {
   $('#soa-property-50').val($('#soa-property-102').val() + ' ' + $('#soa-property-103').val());
 });
 
+$(document).on('change', '#soa-property-103', function() {
+  let location = $('.bx-ui-sls-fake').attr('title');
+  $('#soa-property-50').val($('#soa-property-102').val() + ' ' + $('#soa-property-103').val());
+});
+
 /**
  * fix empty address for courier delivery
  */
 
 $(document).on('change', '#soa-property-56, #soa-property-81, #soa-property-83, #soa-property-95, #soa-property-96, #soa-property-82', function() {
   $('#soa-property-115').val(getAddress());
+  
+  let location = $('.bx-ui-sls-fake').attr('title');
+  $('#soa-property-104').val(arrLocation[0]);
 });
 
 const getAddress = () => {
