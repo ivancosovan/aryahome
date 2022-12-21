@@ -436,6 +436,7 @@ $(document).on('change', '#soa-property-56, #soa-property-81, #soa-property-83, 
   $('#soa-property-115').val(getAddress());
   
   let location = $('.bx-ui-sls-fake').attr('title');
+  let arrLocation = location.split(',');
   $('#soa-property-104').val(arrLocation[0]);
 });
 
