@@ -108,12 +108,12 @@ BX.namespace('BX.Ctweb.YandexDelivery');
 
             if (self.lastRoute && self.currentAddress != 'undefined') {
 
-                let addressInput = document.querySelector('.ADDRESS textarea'); // add address in order properties inputs list custom v1
-                let houseInput = document.querySelector('.HOUSE input');
-                let addressArray = self.currentAddress.split(',');
-                console.log(addressArray);
-                addressInput.value = self.currentAddress;
-                houseInput.value = addressArray[addressArray.length - 1];
+                //let addressInput = document.querySelector('.ADDRESS textarea'); // add address in order properties inputs list custom v1
+                //let houseInput = document.querySelector('.HOUSE input');
+                //let addressArray = self.currentAddress.split(',');
+                // console.log(addressArray);
+                //addressInput.value = self.currentAddress;
+                // houseInput.value = addressArray[addressArray.length - 1];
 
                 var params = {
                     pointTo: self.currentPoint,
