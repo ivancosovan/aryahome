@@ -1592,7 +1592,7 @@ body .basket-link-custom .js-basket-block .svg svg path {
 		flex-basis:20%;
 		max-width:25%;
 	}
-	.products-product:nth-child(n+9){
+	.products__grid:not(.with_left)>div:nth-child(n+9){
 		display:none;
 	}
 }
@@ -1601,10 +1601,10 @@ body .basket-link-custom .js-basket-block .svg svg path {
 		flex-basis:30%;
 		max-width:33%;
 	}
-	.products-product:nth-child(n+9){
+	.products__grid:not(.with_left)>div:nth-child(n+9){
 		display:flex;
 	}
-	.products-product:nth-child(n+10){
+	.products__grid:not(.with_left)>div:nth-child(n+10){
 		display:none;
 	}
 }
@@ -1620,7 +1620,7 @@ body .basket-link-custom .js-basket-block .svg svg path {
 		max-width:25%;
 		font-size:14px;
 	}
-	.products-product:nth-child(n+9){
+	.products__grid:not(.with_left)>div:nth-child(n+9){
 		display:none;
 	}
 	.products-product__box{
@@ -1650,7 +1650,7 @@ body .basket-link-custom .js-basket-block .svg svg path {
 		font-size:14px;
 	}
 	
-	.products-product:nth-child(n+5){
+	.products__grid:not(.with_left)>div:nth-child(n+5){
 		display:none;
 	}
 	.fake_pagination{
