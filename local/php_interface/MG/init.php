@@ -14,9 +14,28 @@ function MyOnBeforePrologHandler()
     }
 }*/
 
- AddEventHandler('aspro.max', 'OnAsproShowSectionGallery', array('\Aspro\Functions\CAsproMaxCustom', 'OnAsproShowSectionGalleryCustomHandler'));
+use Bitrix\Main\Diag\Debug;
+use Bitrix\Sale\Location\LocationTable;
+use Bitrix\Main\EventManager;
+use Bitrix\Sale\Order;
+use Bitrix\Sale;
 
+CModule::AddAutoloadClasses('',
+    [
+        'Cosmo\CosmoMax'        => '/local/php_interface/lib/cosmo/CosmoMax.php',
+        'Cosmo\CosmoMaxItem'        => '/local/php_interface/lib/cosmo/CosmoMaxItem.php',
+    ]
+);
 
+$eventManager = EventManager::getInstance();
+
+$eventManager->addEventHandler('sale', 'OnSaleComponentOrderResultPrepared', 'OnSaleComponentOrderResultPrepared');
+function OnSaleComponentOrderResultPrepared(&$order, &$arUserResult, $request, &$arParams, &$arResult)
+{
+    //AddMessage2Log($request);
+}
+
+AddEventHandler('aspro.max', 'OnAsproShowSectionGallery', array('\Aspro\Functions\CAsproMaxCustom', 'OnAsproShowSectionGalleryCustomHandler'));
 
 AddEventHandler("sale", "OnOrderSave", "updateUserWaitingList");
 function updateUserWaitingList($orderId,$fields, $orderFields, $isNew){
@@ -588,6 +607,232 @@ if (!function_exists('showPriceMatrixCustom2')){
     }
 }
 
+if (!function_exists('showPriceMatrixCustomForDetail')){
+    function showPriceMatrixCustomForDetail($arItem = array(), $arParams, $strMeasure = '', $arAddToBasketData = array()){
+
+
+        $arColorProp = [
+            '1676' => 'red_discont',
+            '1677' => 'green_discont',
+            '1678' => 'orange_discont',
+            '1679' => 'white_discont',
+            '1680' => 'yellow_discont',
+        ];
+
+        /*
+         * Доработано
+         * Сравнивается скидка (из правил работы с корзиной) на цену (id - 8), и цену со скидкой (7) и выбирается минимальная для вывода
+         * */
+        $html = '';
+        if(
+            isset($arItem['PRICE_MATRIX'])
+            && $arItem['PRICE_MATRIX']
+            && $arParams['USE_PRICE_COUNT'] == 'Y'
+        ) {
+            ob_start();?>
+            <?$bShowPopupPrice = (
+                CMax::GetFrontParametrValue('SHOW_POPUP_PRICE') == 'Y'
+                && (
+                    count($arItem['PRICE_MATRIX']['ROWS']) > 1
+                    || count($arItem['PRICE_MATRIX']['COLS']) > 1
+                )
+            );?>
+            <?if($bShowPopupPrice):?>
+                <div class="js-info-block rounded3">
+                <div class="block_title text-upper font_xs font-bold">
+                    Варианты цен
+                    <?=CMax::showIconSvg("close", SITE_TEMPLATE_PATH."/images/svg/Close.svg");?>
+                </div>
+                <div class="block_wrap">
+                <div class="block_wrap_inner prices scrollblock">
+            <?endif;?>
+            <div class="price_matrix_block">
+                <?
+                $sDiscountPrices = \Bitrix\Main\Config\Option::get(ASPRO_MAX_MODULE_ID, 'DISCOUNT_PRICE');
+                $arDiscountPrices = array();
+
+                if($sDiscountPrices)
+                    $arDiscountPrices = array_flip(explode(',', $sDiscountPrices));
+
+                \Bitrix\Main\Type\Collection::sortByColumn($arItem['PRICE_MATRIX']['COLS'], array('SORT' => SORT_ASC));
+
+                $arTmpPrice = (isset($arItem['ITEM_PRICES']) ? current($arItem['ITEM_PRICES']) : array());
+
+                $iCountPriceGroup = count($arItem['PRICE_MATRIX']['COLS']);
+                $bPriceRows = (count($arItem['PRICE_MATRIX']['ROWS']) > 1);
+
+                $idOldPrice = 7;
+
+                $oldPriceDiscountVal = $arItem['PRICE_MATRIX']['MATRIX'][7]["ZERO-INF"]['DISCOUNT_PRICE'];// 7 - id цены "Розничная без скидки"
+
+                if($arDiscountPrices){
+                    foreach($arItem['PRICE_MATRIX']['MATRIX'] as $key => $arPrice){
+
+                        if ($arPrice['DISCOUNT_PRICE'] < $oldPriceDiscountVal){
+                            $arMinPrice[$key] = $arPrice['ZERO-INF']['DISCOUNT_PRICE'];
+                        }elseif($arPrice['DISCOUNT_PRICE'] > $oldPriceDiscountVal){
+                            $arMinPrice[$key] = $oldPriceDiscountVal;
+                        }
+                        else{
+                            $arMinPrice[$key] = $arPrice['ZERO-INF']['DISCOUNT_PRICE'];
+                        }
+                    }
+
+                    $keyMinPrice = array_keys($arMinPrice, min($arMinPrice))[0];
+                }
+
+                ?>
+                <?foreach($arItem['PRICE_MATRIX']['COLS'] as $arPriceGroup):?>
+                    <?
+                    $showDiscountByOldPrice = false;
+                    ?>
+                    <?if($iCountPriceGroup > 1):?>
+                        <?
+                        $class = '';
+                        if($arTmpPrice)
+                        {
+                            if($arItem['PRICE_MATRIX']['MATRIX'][$arPriceGroup['ID']][$arTmpPrice['QUANTITY_HASH']]['ID'] == $arTmpPrice['ID']){
+                                $class = 'min';
+                            }else{
+                                $class = 'not-show';
+                            }
+
+                        }?>
+                        <div class="price_group <?=$class;?> <?=$arPriceGroup['XML_ID']?>">
+                    <?endif;?>
+                    <?
+
+                    if ($arPriceGroup['ID'] == $keyMinPrice){
+                        $showDiscountByOldPrice = true;
+                    }
+
+                    ?>
+                    <div class="price_matrix_wrapper custom <?=($arDiscountPrices ? (isset($arDiscountPrices[$arPriceGroup['ID']]) && !$showDiscountByOldPrice  ? 'strike_block 2' : '') : '');?>">
+                        <?$iCountPriceInterval = count($arItem['PRICE_MATRIX']['MATRIX'][$arPriceGroup['ID']]);?>
+                        <?foreach($arItem['PRICE_MATRIX']['MATRIX'][$arPriceGroup['ID']] as $key => $arPrice):?>
+                            <?if($iCountPriceInterval > 1):?>
+                                <div class="price_wrapper_block clearfix">
+                                <div class="price_interval pull-left font_xs muted777">
+                                    <?
+                                    $quantity_from = ($arItem['PRICE_MATRIX']['ROWS'][$key]['QUANTITY_FROM'] ? $arItem['PRICE_MATRIX']['ROWS'][$key]['QUANTITY_FROM'] : 0);
+                                    $quantity_to = $arItem['PRICE_MATRIX']['ROWS'][$key]['QUANTITY_TO'];
+                                    $text = ($quantity_to ? Loc::getMessage('FROM').' '.$quantity_from.' '.Loc::getMessage('TO').' '.$quantity_to :Loc::getMessage('FROM').' '.$quantity_from );
+                                    ?>
+                                    <div><?=$text?><?if(($arParams["SHOW_MEASURE"]=="Y") && $strMeasure):?> <?=$strMeasure?><?endif;?></div>
+                                </div>
+                            <?endif;?>
+                            <div class="prices-wrapper price__wrapper <?=($iCountPriceInterval > 1 ? ' pull-right text-right' : '');?>">
+
+                                <? if ($arPrice["PRICE"] > $arPrice["DISCOUNT_PRICE"] && $showDiscountByOldPrice) {?>
+                                    <div class="price font-bold <?=(($iCountPriceInterval > 1) ? 'font_xs' : ($arParams['MD_PRICE'] ? 'font_mlg' : 'font_mxs dd'));?>" data-currency="<?=$arPrice["CURRENCY"];?>" data-value="<?=$arPrice["DISCOUNT_PRICE"];?>">
+                                        <? if(strlen($arPrice["DISCOUNT_PRICE"])): ?>
+                                            <? if ($arItem['SHOW_FROM_LANG'] == 'Y'): ?><span><?=Loc::getMessage('FROM')?></span><?endif;?>
+                                            <span class="values_wrapper">
+                                                <?=\Aspro\Functions\CAsproMaxItem::getCurrentPrice("DISCOUNT_PRICE", $arPrice);?>
+                                            </span>
+                                            <?if(($arParams["SHOW_MEASURE"]=="Y") && $strMeasure && $arPrice["DISCOUNT_PRICE"]):?><span class="price_measure">/<?=$strMeasure?></span><?endif;?>
+                                        <? endif; ?>
+                                    </div>
+                                    <? if ($arParams["SHOW_OLD_PRICE"]=="Y"): ?>
+                                        <div class="price discount" data-currency="<?=$arPrice["CURRENCY"];?>" data-value="<?=$arPrice["PRICE"];?>">
+                                            <span class="values_wrapper <?=($arParams['MD_PRICE'] ? 'font_sm' : 'font_xs');?> muted"><?=\Aspro\Functions\CAsproMaxItem::getCurrentPrice("PRICE", $arPrice);?></span>
+                                        </div>
+                                    <? endif; ?>
+                                <? } else { ?>
+                                    <? if ($showDiscountByOldPrice): ?>
+                                        <div class="price" data-currency="<?=$arPrice["CURRENCY"];?>" data-value="<?=$arPrice["DISCOUNT_PRICE"];?>">
+                                            <? if ($arItem['SHOW_FROM_LANG'] == 'Y'): ?><span><?=Loc::getMessage('FROM')?></span><? endif; ?>
+                                            <span class="price__inner">
+                                                <span class="price__value"><?=\Aspro\Functions\CAsproMaxItem::getCurrentPrice("PRICE", $arPrice);?></span>
+                                                <?if(($arParams["SHOW_MEASURE"]=="Y") && $strMeasure && $arPrice["PRICE"]):?><span class="price_measure">/<?=$strMeasure?></span><?endif;?>
+                                            </span>
+                                        </div>
+                                        <? if($arParams["SHOW_OLD_PRICE"]=="Y"): ?>
+                                            <? $oldPriceValue = $arItem['PRICE_MATRIX']['MATRIX'][$idOldPrice]["ZERO-INF"]['PRICE']; ?>
+
+                                            <? if($arParams['SHOW_DISCOUNT_PERCENT'] == 'Y' &&  $oldPriceValue > $arPrice["PRICE"]): ?>
+                                                <? $ratio = (!$bPriceRows ? $arAddToBasketData["MIN_QUANTITY_BUY"] : 1); ?>
+                                                <? $diff = ($oldPriceValue - $arPrice["PRICE"]); ?>
+                                                <? if($arParams['SHOW_DISCOUNT_PERCENT_NUMBER'] != 'Y'): ?>
+                                                    <div class="sale_block">
+                                                        <div class="inner-sale rounded1">
+                                                            <span class="title">Экономия </span>
+                                                            <div class="text"><span class="values_wrapper" data-currency="<?=$arPrice["CURRENCY"];?>" data-value="<?=($diff*$ratio);?>">
+                                                                <?=\Aspro\Functions\CAsproMaxItem::getCurrentPrice($diff, $arPrice, false)?>
+                                                            </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <? else: ?>
+                                                    <span class="price__discount <?=$arItem['PROPERTIES']['TSVET_TSENNIKA']["VALUE_ENUM_ID"] ? $arColorProp[$arItem['PROPERTIES']['TSVET_TSENNIKA']["VALUE_ENUM_ID"]] : 'no_bg_color'?>">
+                                                    <? $percent=round(($diff/$oldPriceValue)*100); ?>
+                                                        <? if ($percent && $percent<100) { ?>
+                                                            <span class="value">-<span><?=$percent;?></span>%</span>
+                                                        <? } ?>
+                                                </span>
+                                                <? endif; ?>
+                                            <? endif; ?>
+
+                                            <div class="price discount" data-currency="<?=$arPrice["CURRENCY"];?>" data-value="<?=$arPrice["PRICE"];?>">
+                                                    <del class="price__old">
+                                                        <span class="price_value"><?=CurrencyFormat($oldPriceValue, $arPrice['CURRENCY'])?></span>
+                                                    </del>
+                                            </div>
+                                        <? endif; ?>
+                                    <? endif; ?>
+                                <? } ?>
+                            </div>
+                            <? if($iCountPriceInterval > 1): ?>
+                                </div>
+                            <? else: ?>
+                                <? if ($arParams['SHOW_DISCOUNT_PERCENT'] == 'Y' && $arPrice["PRICE"] > $arPrice["DISCOUNT_PRICE"] && $showDiscountByOldPrice): ?>
+                                    <?$ratio = (!$bPriceRows ? $arAddToBasketData["MIN_QUANTITY_BUY"] : 1);?>
+                                    <div class="sale_block 1">
+                                        <div class="sale_wrapper font_xxs">
+                                            <? $diff = ($arPrice["PRICE"] - $arPrice["DISCOUNT_PRICE"]); ?>
+                                            <? if($arParams['SHOW_DISCOUNT_PERCENT_NUMBER'] != 'Y'): ?>
+                                                <div class="inner-sale rounded1">
+                                                    <span class="title">Экономия </span> <div class="text"><span class="values_wrapper" data-currency="<?=$arPrice["CURRENCY"];?>" data-value="<?=($diff*$ratio);?>"><?=\Aspro\Functions\CAsproMaxItem::getCurrentPrice($diff, $arPrice, false)?></span></div>
+                                                </div>
+                                            <? else: ?>
+                                                <div class="sale-number rounded2">
+                                                    <? $percent=round(($diff/$arPrice["PRICE"])*100); ?>
+                                                    <? if ($percent && $percent<100) { ?>
+                                                        <div class="value">-<span><?=$percent;?></span>%</div>
+                                                    <? } ?>
+                                                    <div class="inner-sale rounded1">
+                                                        <div class="text">Экономия<span class="values_wrapper"><?=\Aspro\Functions\CAsproMaxItem::getCurrentPrice($diff, $arPrice, false);?></span></div>
+                                                    </div>
+                                                </div>
+                                            <? endif; ?>
+                                        </div>
+                                    </div>
+                                <? endif; ?>
+                            <? endif; ?>
+                        <? endforeach; ?>
+                    </div>
+                    <? if ($iCountPriceGroup > 1) : ?>
+                        </div>
+                    <? endif; ?>
+                <? endforeach; ?>
+            </div>
+            <?if($bShowPopupPrice):?>
+                </div>
+                <div class="more-btn text-center">
+                    <a href="" class="font_upper colored_theme_hover_bg"><?=Loc::getMessage("MORE_LINK")?></a>
+                </div>
+                </div>
+                </div>
+            <?endif;?>
+            <?$html = ob_get_contents();
+            ob_end_clean();
+
+            foreach(GetModuleEvents(ASPRO_MAX_MODULE_ID, 'OnAsproShowPriceMatrix', true) as $arEvent) // event for manipulation price matrix
+                ExecuteModuleEventEx($arEvent, array($arItem, $arParams, $strMeasure, $arAddToBasketData, &$html));
+        }
+        return $html;
+    }
+}
 
 //AddEventHandler("sale", "OnOrderSave", "changeLocationFromAddres");
 //function changeLocationFromAddres($orderId,$fields, $orderFields, $isNew){

@@ -390,8 +390,360 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 							), $component, array("HIDE_ICONS" => "Y")
 						);?>
 					<?endif;?>
-				<?//tabs skip?>
-                <?//offers?>
+				<?//tabs?>
+				<?elseif($code == 'tabs'):?>
+					<?if($bShowDetailTextTab || $bShowPropsTab || $bShowVideoTab || $bShowHowBuyTab || $bShowPaymentTab || $bShowDeliveryTab || $bShowStoresTab || $bShowCustomTab || $bShowReviewsTab || $bShowBuyServicesTab):?>
+						<div class="ordered-block js-store-scroll tabs-block">
+							<?if($i > 1):?>
+								<div class="tabs arrow_scroll">
+									<ul class="nav nav-tabs font_upper_md">
+										<?$iTab = 0;?>
+										<?foreach($arTabOrder as $value):?>
+											<?//show desc block?>
+											<?if($value == "desc"):?>
+												<?if($bShowDetailTextTab || ($arParams["PROPERTIES_DISPLAY_LOCATION"] != "TAB" && $bShowPropsTab)):?>
+													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#desc" data-toggle="tab"><?=($arParams["T_DESC"] ? $arParams["T_DESC"] : Loc::getMessage("T_DESC"));?></a></li>
+												<?endif;?>
+											<?endif;?>
+											<?//show char block?>
+											<?if($value == "char"):?>
+												<?if($bShowPropsTab && $arParams["PROPERTIES_DISPLAY_LOCATION"] == "TAB"):?>
+													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#props" data-toggle="tab"><?=($arParams["T_CHARACTERISTICS"] ? $arParams["T_CHARACTERISTICS"] : Loc::getMessage("T_CHARACTERISTICS"));?></a></li>
+												<?endif;?>
+											<?endif;?>
+											<?//show howbuy block?>
+											<?if($value == "buy"):?>
+												<?if($bShowHowBuyTab):?>
+													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#buy" data-toggle="tab"><?=$arParams["TITLE_HOW_BUY"];?></a></li>
+												<?endif;?>
+											<?endif;?>
+											<?//show payment block?>
+											<?if($value == "payment"):?>
+												<?if($bShowPaymentTab):?>
+													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#payment" data-toggle="tab"><?=$arParams["TITLE_PAYMENT"];?></a></li>
+												<?endif;?>
+											<?endif;?>
+											<?//show delivery block?>
+											<?if($value == "delivery"):?>
+												<?if($bShowDeliveryTab):?>
+													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#delivery" data-toggle="tab"><?=$arParams["TITLE_DELIVERY"];?></a></li>
+												<?endif;?>
+											<?endif;?>
+											<?//show stores block?>
+											<?if($value == "stores"):?>
+												<?if($bShowStoresTab):?>
+													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#stores" data-toggle="tab"><?=$arParams["TAB_STOCK_NAME"];?></a></li>
+												<?endif;?>
+											<?endif;?>
+											<?//show custom_tab block?>
+											<?if($value == "custom_tab"):?>
+												<?if($bShowCustomTab):?>
+													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>"><a href="#custom_tab" data-toggle="tab"><?=$arParams["TAB_DOPS_NAME"];?></a></li>
+												<?endif;?>
+											<?endif;?>
+											<?//show reviews block?>
+											<?if($value == "reviews"):?>
+												<?if($bShowReviewsTab):?>
+													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>">
+														<a href="#reviews" data-toggle="tab"><?=$arParams["TAB_REVIEW_NAME"];?><?$APPLICATION->ShowViewContent('PRODUCT_REVIWS_COUNT_INFO')?></a></li>
+												<?endif;?>
+											<?endif;?>
+											<?//show video block?>
+											<?if($value == "video"):?>
+												<?if($bShowVideoTab):?>
+													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>">
+														<a href="#video" data-toggle="tab">
+															<?=$arParams["TAB_VIDEO_NAME"];?>
+															<?if(count($templateData["VIDEO"]) > 1):?>
+																<span class="count empty">&nbsp;(<?=count($templateData["VIDEO"])?>)</span>
+															<?endif;?>
+														</a>
+													</li>
+												<?endif;?>
+											<?endif;?>
+											<?//show buy_services block?>
+											<?if($value == "buy_services"):?>
+												<?if($bShowBuyServicesTab):?>
+													<li class="bordered rounded3 <?=(!($iTab++) ? 'active' : '')?>">
+														<a href="#buy_services" data-toggle="tab">
+															<?=$arParams["TAB_BUY_SERVICES_NAME"];?>													
+														</a>
+													</li>
+												<?endif;?>
+											<?endif;?>
+										<?endforeach;?>
+									</ul>
+								</div>
+							<?endif;?>
+							<div class="tab-content<?=($i <= 1 ? ' not_tabs' : '')?>">
+								<?$iTab = 0;?>
+								<?foreach($arTabOrder as $value):?>
+									<?//detail text?>
+									<?if($value == "desc"):?>
+										<?if($bShowDetailTextTab || ($arParams["PROPERTIES_DISPLAY_LOCATION"] != "TAB" && $bShowPropsTab)):?>
+											<div class="tab-pane <?=(!($iTab++) ? 'active' : '')?>" id="desc">
+												<?if($bShowDetailText):?>
+													<?if($i == 1):?>
+														<div class="ordered-block__title option-font-bold font_lg">
+															<?=($arParams["T_DESC"] ? $arParams["T_DESC"] : Loc::getMessage("T_DESC"));?>
+														</div>
+													<?endif;?>
+													<?$APPLICATION->ShowViewContent('PRODUCT_DETAIL_TEXT_INFO')?>
+												<?endif;?>
+												<?if($arParams["PROPERTIES_DISPLAY_LOCATION"] != "TAB" && $bShowPropsTab):?>
+													<div class="ordered-block">
+														<div class="ordered-block__title option-font-bold font_lg">
+															<?=($arParams["T_CHARACTERISTICS"] ? $arParams["T_CHARACTERISTICS"] : Loc::getMessage("T_CHARACTERISTICS"));?>
+														</div>
+														<?$APPLICATION->ShowViewContent('PRODUCT_PROPS_INFO')?>
+													</div>
+												<?endif;?>
+												<?if($bShowDocs):?>
+													<div class="ordered-block">
+														<div class="ordered-block__title option-font-bold font_lg">
+															<?=$arParams["BLOCK_DOCS_NAME"];?>
+														</div>
+														<?$APPLICATION->ShowViewContent('PRODUCT_FILES_INFO')?>
+													</div>
+												<?endif;?>
+												<?if($bShowAdditionalGallery):?>
+													<?$APPLICATION->ShowViewContent('PRODUCT_ADDITIONAL_GALLERY_INFO')?>
+												<?endif;?>
+											</div>
+										<?endif;?>
+									<?endif;?>
+									<?//props?>
+									<?if($value == "char"):?>
+										<?if($bShowPropsTab && $arParams["PROPERTIES_DISPLAY_LOCATION"] == "TAB"):?>
+											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="props">
+												<?if($i == 1):?>
+													<div class="ordered-block__title option-font-bold font_lg">
+														<?=($arParams["T_CHARACTERISTICS"] ? $arParams["T_CHARACTERISTICS"] : Loc::getMessage("T_CHARACTERISTICS"));?>
+													</div>
+												<?endif;?>
+												<?$APPLICATION->ShowViewContent('PRODUCT_PROPS_INFO')?>
+											</div>
+										<?endif;?>
+									<?endif;?>
+									<?//how buy?>
+									<?if($value == "buy"):?>
+										<?if($bShowHowBuyTab):?>
+											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="buy">
+												<?if($i == 1):?>
+													<div class="ordered-block__title option-font-bold font_lg">
+														<?=$arParams["TITLE_HOW_BUY"];?>
+													</div>
+												<?endif;?>
+												<?$APPLICATION->ShowViewContent('PRODUCT_HOW_BUY_INFO')?>
+											</div>
+										<?endif;?>
+									<?endif;?>
+									<?//payment?>
+									<?if($value == "payment"):?>
+										<?if($bShowPaymentTab):?>
+											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="payment">
+												<?if($i == 1):?>
+													<div class="ordered-block__title option-font-bold font_lg">
+														<?=$arParams["TITLE_PAYMENT"];?>
+													</div>
+												<?endif;?>
+												<?$APPLICATION->ShowViewContent('PRODUCT_PAYMENT_INFO')?>
+											</div>
+										<?endif;?>
+									<?endif;?>
+									<?//delivery?>
+									<?if($value == "delivery"):?>
+										<?if($bShowDeliveryTab):?>
+											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="delivery">
+												<?if($i == 1):?>
+													<div class="ordered-block__title option-font-bold font_lg">
+														<?=$arParams["TITLE_DELIVERY"];?>
+													</div>
+												<?endif;?>
+												<?$APPLICATION->ShowViewContent('PRODUCT_DELIVERY_INFO')?>
+											</div>
+										<?endif;?>
+									<?endif;?>
+									<?//custom_tab?>
+									<?if($value == "custom_tab"):?>
+										<?if($bShowCustomTab):?>
+											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="custom_tab">
+												<?if($i == 1):?>
+													<div class="ordered-block__title option-font-bold font_lg">
+														<?=$arParams["TAB_DOPS_NAME"];?>
+													</div>
+												<?endif;?>
+												<?$APPLICATION->ShowViewContent('PRODUCT_CUSTOM_TAB_INFO')?>
+											</div>
+										<?endif;?>
+									<?endif;?>
+									<?//show video block?>
+									<?if($value == "video"):?>
+										<?if($bShowVideoTab):?>
+											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="video">
+												<?if($i == 1):?>
+													<div class="ordered-block__title option-font-bold font_lg">
+														<?=$arParams["TAB_VIDEO_NAME"];?>
+													</div>
+												<?endif;?>
+												<?$APPLICATION->ShowViewContent('PRODUCT_VIDEO_INFO')?>
+											</div>
+										<?endif;?>
+									<?endif;?>
+									<?//show buy_services block?>
+									<?if($value == "buy_services"):?>
+										<?if($bShowBuyServicesTab):?>
+											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="buy_services">
+												<?if($i == 1):?>
+													<div class="ordered-block__title option-font-bold font_lg">
+														<?=$arParams["TAB_BUY_SERVICES_NAME"];?>
+													</div>
+												<?endif;?>
+												<div class='buy_services_wrap js-scroll-services' data-parent_product=<?=$currentProductId?>>
+													<?=$htmlBuyServices;?>
+												</div>
+											</div>
+										<?endif;?>
+									<?endif;?>
+									<?//show stores block?>
+									<?if($value == "stores"):?>
+										<?if($bShowStoresTab):?>
+											<div class="tab-pane <?=$value;?> <?=(!($iTab++) ? 'active' : '')?>" id="stores">
+												<?if($i == 1 || $bCombineStoresMode):?>
+													<div class="ordered-block__title option-font-bold font_lg">
+														<?=$arParams["TAB_STOCK_NAME"];?>
+													</div>
+												<?endif;?>
+												<div class="stores_tab">
+													<div class="loading_block"><div class="loading_block_content"></div></div>
+												</div>
+											</div>
+										<?endif;?>
+									<?endif;?>
+									<?//show reviews block?>
+									<?if($value == "reviews"):?>
+										<?if($bShowReviewsTab):?>
+											<div class="tab-pane <?=$value;?> <?=$arParams['REVIEWS_VIEW']?> <?=(!($iTab++) ? 'active' : '')?>" id="reviews">
+												<?if($i == 1 && $arParams['REVIEWS_VIEW'] == 'STANDART'):?>
+													<div class="ordered-block__title option-font-bold font_lg">
+														<?=$arParams["TAB_REVIEW_NAME"];?>
+													</div>
+												<?endif;?>
+												<div id="reviews_content" class="<?=$arParams['REVIEWS_VIEW'] == 'EXTENDED' ? '' : 'bordered rounded3'?>">
+													<?if($templateData["YM_ELEMENT_ID"]):?>
+														<?$APPLICATION->IncludeComponent(
+															"aspro:api.yamarket.reviews_model.max",
+															"main",
+															Array(
+																"YANDEX_MODEL_ID" => $templateData["YM_ELEMENT_ID"]
+															)
+														);?>
+													<?elseif(IsModuleInstalled("forum") && $arParams['REVIEWS_VIEW'] == 'STANDART'):?>
+														<?Bitrix\Main\Page\Frame::getInstance()->startDynamicWithID("area");?>
+															<?$APPLICATION->IncludeComponent(
+																"bitrix:forum.topic.reviews",
+																"main",
+																Array(
+																	"CACHE_TYPE" => $arParams["CACHE_TYPE"],
+																	"CACHE_TIME" => $arParams["CACHE_TIME"],
+																	"MESSAGES_PER_PAGE" => $arParams["MESSAGES_PER_PAGE"],
+																	"USE_CAPTCHA" => $arParams["USE_CAPTCHA"],
+																	"FORUM_ID" => $arParams["FORUM_ID"],
+																	"ELEMENT_ID" => $arResult["ID"],
+																	"IBLOCK_ID" => $arParams["IBLOCK_ID"],
+																	"AJAX_POST" => $arParams["REVIEW_AJAX_POST"],
+																	"SHOW_RATING" => "N",
+																	"SHOW_MINIMIZED" => "Y",
+																	"SECTION_REVIEW" => "Y",
+																	"POST_FIRST_MESSAGE" => "Y",
+																	"MINIMIZED_MINIMIZE_TEXT" => GetMessage("HIDE_FORM"),
+																	"MINIMIZED_EXPAND_TEXT" => GetMessage("ADD_REVIEW"),
+																	"SHOW_AVATAR" => "N",
+																	"SHOW_LINK_TO_FORUM" => "N",
+																	"PATH_TO_SMILE" => "/bitrix/images/forum/smile/",
+																),	false
+															);?>
+														<?Bitrix\Main\Page\Frame::getInstance()->finishDynamicWithID("area", "");?>
+													<?elseif(IsModuleInstalled("blog") && $arParams['REVIEWS_VIEW'] == 'EXTENDED' && ($arParams['USE_REVIEW'] == 'Y' || $arParams["DETAIL_USE_COMMENTS"] == 'Y') ):?>
+														<div class="ordered-block__title option-font-bold font_lg">
+															<?=$arParams["TAB_REVIEW_NAME"];?>
+															<span class="element-count-wrapper">
+																<span class="element-count muted font_xs rounded3" style="display: none;">
+																</span>
+															</span>
+														</div>
+														<div class="right_reviews_info">
+															<div class="rating-wrapper">
+																<div class="votes_block nstar with-text">
+																	<div class="ratings">
+																		<div class="inner_rating">
+																			<?for($i=1;$i<=5;$i++):?>
+																				<div class="item-rating"><?=CMax::showIconSvg("star", SITE_TEMPLATE_PATH."/images/svg/catalog/star_small.svg");?></div>
+																			<?endfor;?>
+																		</div>
+																	</div>
+																</div>
+																<div class="rating-value">
+																	<span class="count"></span>
+																	<span class="maximum_value"><?=Loc::getMessage("VOTES_RESULT_NONE")?></span>
+																</div>
+															</div>
+															<div class="show-comment btn btn-xs btn-default">
+																<?=GetMessage('ADD_REVIEW')?>
+															</div>
+														</div>
+														<?$APPLICATION->AddHeadScript(SITE_TEMPLATE_PATH."/js/rating_likes.js"); ?>
+														<?Bitrix\Main\Page\Frame::getInstance()->startDynamicWithID("area");?>
+														<?ob_start()?>
+															<?$APPLICATION->IncludeComponent(
+																"bitrix:catalog.comments",
+																"catalog",
+																array(
+																	'CACHE_TYPE' => $arParams['CACHE_TYPE'],
+																	'CACHE_TIME' => $arParams['CACHE_TIME'],
+																	'CACHE_GROUPS' => $arParams['CACHE_GROUPS'],
+																	"COMMENTS_COUNT" => (isset($arParams["MESSAGES_PER_PAGE"]) ? $arParams["MESSAGES_PER_PAGE"] : $arParams['COMMENTS_COUNT']),
+																	"ELEMENT_CODE" => "",
+																	"ELEMENT_ID" => $arResult["ID"],
+																	"IBLOCK_ID" => $arParams["IBLOCK_ID"],
+																	"IBLOCK_TYPE" => "aspro_max_catalog",
+																	"SHOW_DEACTIVATED" => "N",
+																	"TEMPLATE_THEME" => "blue",
+																	"URL_TO_COMMENT" => "",
+																	"AJAX_POST" => "Y",
+																	"WIDTH" => "",
+																	"COMPONENT_TEMPLATE" => ".default",
+																	"BLOG_USE" => 'Y',
+																	"PATH_TO_SMILE" => '/bitrix/images/blog/smile/',
+																	"EMAIL_NOTIFY" => $arParams["DETAIL_BLOG_EMAIL_NOTIFY"],
+																	"SHOW_SPAM" => "Y",
+																	"SHOW_RATING" => "Y",
+																	"RATING_TYPE" => "like_graphic_catalog_reviews",
+																	"MAX_IMAGE_SIZE" => $arParams["MAX_IMAGE_SIZE"],
+																	"BLOG_URL" => $arParams["BLOG_URL"],
+																),
+																false, array("HIDE_ICONS" => "Y")
+															);?>
+															<?=\Aspro\Functions\CAsproMax::showComments("")?>
+															<?$html=ob_get_clean();?>
+															<?if($html && strpos($html, 'error') === false):?>
+																<div class="ordered-block comments-block">
+																	<?=$html;?>
+																</div>
+																<div class="line-after"></div>
+															<?endif;?>
+
+														<?Bitrix\Main\Page\Frame::getInstance()->finishDynamicWithID("area", "");?>
+													<?endif;?>
+												</div>
+											</div>
+										<?endif;?>
+									<?endif;?>
+								<?endforeach;?>
+							</div>
+						</div>
+					<?endif;?>
+				<?//offers?>
 				<?elseif($code == 'offers' && $templateData["OFFERS_INFO"]["OFFERS_MORE"]):?>
 					<div class="ordered-block js-offers-scroll <?=$code?>">
 						<div class="ordered-block__title option-font-bold font_lg">
@@ -399,8 +751,16 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 						</div>
 						<?$APPLICATION->ShowViewContent('PRODUCT_OFFERS_INFO')?>
 					</div>
-				<?//detail text skip?>
+				<?//detail text?>
 				<?elseif($code == 'desc' && $bShowDetailTextTab):?>
+					<?if($bShowDetailText):?>
+						<div class="ordered-block <?=$code?>">
+							<div class="ordered-block__title option-font-bold font_lg">
+								<?=($arParams["T_DESC"] ? $arParams["T_DESC"] : Loc::getMessage("T_DESC"));?>
+							</div>
+							<?$APPLICATION->ShowViewContent('PRODUCT_DETAIL_TEXT_INFO')?>
+						</div>
+					<?endif;?>
 					<?//docs?>
 					<?if($bShowDocs):?>
 						<div class="ordered-block <?=$code?>">
@@ -413,7 +773,14 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 					<?if($bShowAdditionalGallery):?>
 						<?$APPLICATION->ShowViewContent('PRODUCT_ADDITIONAL_GALLERY_INFO')?>
 					<?endif;?>
-				<?//props skip?>
+				<?//props?>
+				<?elseif($code == 'char' && $bShowPropsTab):?>
+					<div class="ordered-block <?=$code?>">
+						<div class="ordered-block__title option-font-bold font_lg">
+							<?=($arParams["T_CHARACTERISTICS"] ? $arParams["T_CHARACTERISTICS"] : Loc::getMessage("T_CHARACTERISTICS"));?>
+						</div>
+						<?$APPLICATION->ShowViewContent('PRODUCT_PROPS_INFO')?>
+					</div>
 				<?//howbuy?>
 				<?elseif($code == 'buy' && $bShowHowBuyTab):?>
 					<div class="ordered-block <?=$code?>">
@@ -438,9 +805,8 @@ $currentProductId = $templateData['OFFERS_INFO']["CURRENT_OFFER"] ?? $arResult['
 						</div>
 						<?$APPLICATION->ShowViewContent('PRODUCT_DELIVERY_INFO')?>
 					</div>
-				<?//show video block skip
-                    $skip = false;?>
-				<?elseif($code == "video" && $bShowVideoTab && $skip):?>
+				<?//show video block?>
+				<?elseif($code == "video" && $bShowVideoTab):?>
 					<div class="ordered-block <?=$code?>">
 						<div class="ordered-block__title option-font-bold font_lg">
 							<?=$arParams["TAB_VIDEO_NAME"];?>
@@ -1337,6 +1703,4 @@ if( $templateData["OFFERS_INFO"]["CURRENT_OFFER"] && $arTheme['CHANGE_TITLE_ITEM
 
 $arScripts = ['swiper', 'swiper_main_styles'];
 \Aspro\Max\Functions\Extensions::init($arScripts);
-
-// print_r('end component epilog.php');
 ?>

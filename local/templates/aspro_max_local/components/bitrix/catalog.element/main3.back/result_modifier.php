@@ -1428,7 +1428,9 @@ if($arResult["SECTION"])
 
 if(in_array('HELP_TEXT', $arParams['PROPERTY_CODE']))
 {
-
+	
+	
+							
 	$arResult['HELP_TEXT_FILE'] = false;
 	if(isset($arResult['DISPLAY_PROPERTIES']['HELP_TEXT']) && $arResult['DISPLAY_PROPERTIES']['HELP_TEXT']['~VALUE']):
 		$arResult['HELP_TEXT'] = $arResult['DISPLAY_PROPERTIES']['HELP_TEXT']['~VALUE'];
